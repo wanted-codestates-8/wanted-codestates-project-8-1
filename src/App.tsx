@@ -7,6 +7,9 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 
 function App() {
   const [viewSide, setViewSide] = useState(false)
+  const [clickedRepo, setClickedRepo] = useState<string>(
+    'chltjdrhd777/my-record'
+  )
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -24,8 +27,8 @@ function App() {
         </Container>
         <SideContainer className={viewSide ? 'slide-in' : ''}>
           <button onClick={() => setViewSide(!viewSide)}>close </button>
-          <Search />
-          {/* <Issues /> */}
+          {/* <Search /> */}
+          <Issues setViewSide={setViewSide} clickedRepo={clickedRepo} />
         </SideContainer>
       </Main>
     </QueryClientProvider>

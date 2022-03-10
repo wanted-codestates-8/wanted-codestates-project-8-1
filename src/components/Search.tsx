@@ -6,6 +6,7 @@ import SearchBar from './SearchBar'
 import { useQuery, useQueryClient, useMutation } from 'react-query'
 import { get } from 'api/get'
 import Card from './Card'
+
 function Search() {
   const [searchValue, setSearchValue] = useState<string>('')
   const [page, setPage] = useState(1)
