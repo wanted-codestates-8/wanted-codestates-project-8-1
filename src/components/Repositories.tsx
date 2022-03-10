@@ -4,6 +4,7 @@ import Logo from '../assets/logo.svg'
 import AddButton from '../assets/addButton.svg'
 import { useQuery, useQueryClient, useMutation } from 'react-query'
 import { get } from 'api/get'
+import Card from './Card'
 
 interface RepositoriesProps {
   setViewSide: Dispatch<SetStateAction<boolean>>
@@ -29,6 +30,9 @@ const Repositories = ({ setViewSide }: RepositoriesProps) => {
         alt="Move to search page"
         onClick={() => setViewSide(true)}
       />
+      <Card />
+      <Card />
+      <Card />
     </RepositoryWrapper>
   )
 }
@@ -40,7 +44,13 @@ const color = {
 
 const RepositoryWrapper = styled.section`
   width: 100%;
-  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  @media (max-width: 768px) {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
 `
 
 const Title = styled.img`
