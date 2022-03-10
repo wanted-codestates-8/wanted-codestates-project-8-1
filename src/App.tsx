@@ -3,21 +3,31 @@ import styled from 'styled-components'
 import Repositories from 'components/Repositories'
 import Search from 'components/Search'
 import Issues from 'components/Issues'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 function App() {
   const [viewSide, setViewSide] = useState(false)
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  })
 
   return (
-    <Main>
-      <Container>
-        <Repositories setViewSide={setViewSide} />
-      </Container>
-      <SideContainer className={viewSide ? 'slide-in' : ''}>
-        <button onClick={() => setViewSide(!viewSide)}>goBack</button>
-        <Issues />
-        <Search />
-      </SideContainer>
-    </Main>
+
+    <QueryClientProvider client={queryClient}>
+      <Main>
+        <Container>
+          <Repositories setViewSide={setViewSide} />
+        </Container>
+        <SideContainer className={viewSide ? 'slide-in' : ''}>
+          <Search />
+          <Issues />
+        </SideContainer>
+      </Main>
+    </QueryClientProvider>
   )
 }
 
@@ -45,7 +55,7 @@ const SideContainer = styled.div`
   height: 100%;
   top: 0;
   left: 100%;
-  background-color: midnightblue;
+  /* background-color: midnightblue; */
   transition: left 0.5s ease-out;
 
   &.slide-in {
