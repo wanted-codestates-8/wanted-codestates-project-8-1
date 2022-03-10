@@ -23,7 +23,8 @@ function App() {
         </Container>
         <SideContainer className={viewSide ? 'slide-in' : ''}>
           {/* <Search /> */}
-          <Issues />
+
+          <Issues setViewSide={setViewSide} />
         </SideContainer>
       </Main>
     </QueryClientProvider>
@@ -63,6 +64,7 @@ const SideContainer = styled.div`
 
   @media (min-width: 768px) {
     left: 50%;
+    width: 50%;
   }
 `
 
