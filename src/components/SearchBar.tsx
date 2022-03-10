@@ -9,13 +9,9 @@ import {
 
 interface ISearchBar {
   onSubmit: (value: string) => void
-  refetch: <TPageData>(
-    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
-  ) => Promise<QueryObserverResult<any, unknown>>
-  searchValue: String
 }
 
-function SearchBar({ onSubmit, refetch, searchValue }: ISearchBar) {
+function SearchBar({ onSubmit }: ISearchBar) {
   const [editingValue, setEditingValue] = useState<string>('')
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -31,6 +27,7 @@ function SearchBar({ onSubmit, refetch, searchValue }: ISearchBar) {
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setEditingValue(e.target.value)
         }
+        placeholder="Search Repository"
       />
       <Button type="submit">
         <HiSearch />

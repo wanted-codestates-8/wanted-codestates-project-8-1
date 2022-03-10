@@ -2,14 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 import { BsRecordCircle } from 'react-icons/bs'
+import { IItems } from './Search'
 
-interface CardProps {
-  data: {
-    full_name: string
-    avatar_url: string
-    stargazers_count: number
-    open_issues: number
-  }
+export interface CardProps {
+  data: IItems
 }
 
 export default function Card({ data }: CardProps) {

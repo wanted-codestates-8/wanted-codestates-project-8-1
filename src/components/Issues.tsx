@@ -41,7 +41,7 @@ function Issues() {
   return (
     <IssuesWrapper>
       <BackButton>
-        <BsChevronLeft stroke-width="2px"></BsChevronLeft>
+        <BsChevronLeft strokeWidth="2px"></BsChevronLeft>
       </BackButton>
       <RepoTitle>{data.repositoryName}</RepoTitle>
       <Tag>
