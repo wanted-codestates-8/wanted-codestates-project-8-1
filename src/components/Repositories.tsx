@@ -2,7 +2,6 @@ import React, { useState, Dispatch, SetStateAction } from 'react'
 import styled from 'styled-components'
 import Logo from '../assets/logo.svg'
 import AddButton from '../assets/addButton.svg'
-import { useQuery, useQueryClient, useMutation } from 'react-query'
 import { get } from 'api/get'
 import Card from './Card'
 
@@ -11,26 +10,16 @@ interface RepositoriesProps {
 }
 
 const Repositories = ({ setViewSide }: RepositoriesProps) => {
-  const [page, setPage] = useState(1)
-  const [q, setQ] = useState('wanted')
-  const fetcher = () => get('repositories', { q, page })
-
-  const data = useQuery(['repositories', page], fetcher, {
-    onSettled: (data, error) => {},
-  })
-
   return (
     <RepositoryWrapper>
       <HeaderGit>Git</HeaderGit>
       <HeaderHere>here</HeaderHere>
       <Svg>
-        <polyline points="0,20 20,20 20,40 40" />
+        <polyline points="0,20 20,20 20,40" />
       </Svg>
 
       <SavedRepo>저장된 Repository</SavedRepo>
-      <Card />
-      <Card />
-      <Card />
+
       <AddBtn
         src={AddButton}
         alt="Move to search page"

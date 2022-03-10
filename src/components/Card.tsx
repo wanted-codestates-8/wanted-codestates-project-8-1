@@ -3,7 +3,16 @@ import styled from 'styled-components'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 import { BsRecordCircle } from 'react-icons/bs'
 
-export default function Card() {
+interface CardProps {
+  data: {
+    full_name: string
+    avatar_url: string
+    stargazers_count: number
+    open_issues: number
+  }
+}
+
+export default function Card({ data }: CardProps) {
   return (
     <CardWrap>
       <CardItem>
@@ -14,22 +23,22 @@ export default function Card() {
             alignItems: 'center',
           }}
         >
-          <h3>Lorem ipsum, dolor sit amet.</h3>
+          <h3>{data.full_name}</h3>
           <span style={{ cursor: 'pointer' }}>
             <AiFillStar color={'6C84EE'} />
           </span>
         </div>
-        <h5>Lorem ipsum dolor</h5>
+        <h5>{data.avatar_url}</h5>
         <Dl>
           <Bottom>
             <dd>
               <AiOutlineStar size={20} />
             </dd>
-            <dt>123</dt>
+            <dt>{data.stargazers_count}</dt>
             <dd>
               <BsRecordCircle size={20} />
             </dd>
-            <dt>123</dt>
+            <dt>{data.open_issues}</dt>
           </Bottom>
           <ImgBox></ImgBox>
         </Dl>
@@ -45,8 +54,8 @@ const CardWrap = styled.div`
   align-items: center;
   padding: 12px;
   border-radius: 14px;
-  /* border: 1px solid black; */
-  box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
+  border: 1px solid black;
+  /* box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5); */
 `
 const CardItem = styled.div`
   width: 100%;
