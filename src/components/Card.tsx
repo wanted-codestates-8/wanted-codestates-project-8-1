@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 import { BsRecordCircle } from 'react-icons/bs'
@@ -13,6 +13,23 @@ interface CardProps {
 }
 
 export default function Card({ data }: CardProps) {
+  const [clickedStar, SetClickedStar] = useState(false);
+
+  const handleStar = () => {
+    SetClickedStar(!clickedStar);
+    console.log(data);
+    localStorage.setItem('favorite', 
+    JSON.stringify({
+      full_name: data.full_name, 
+      avatar_url: data.avatar_url, 
+      open_issues: data.open_issues, 
+      stargazers_count: data.stargazers_count}));
+    
+    // JSON.parse(localStorage.getItem('favorite'))
+    console.log(localStorage, "local");
+    }
+
+
   return (
     <CardWrap>
       <CardItem>
@@ -25,7 +42,12 @@ export default function Card({ data }: CardProps) {
         >
           <h3>{data.full_name}</h3>
           <span style={{ cursor: 'pointer' }}>
-            <AiFillStar color={'6C84EE'} />
+            {
+              clickedStar ? 
+              <AiFillStar color={'6C84EE'} onClick={handleStar} /> 
+              : 
+              <AiOutlineStar onClick={handleStar} />
+            }
           </span>
         </div>
         <h5>{data.avatar_url}</h5>
@@ -48,7 +70,7 @@ export default function Card({ data }: CardProps) {
 }
 
 const CardWrap = styled.div`
-  width: 100%;
+  width: 300px;
   margin-bottom: 10px;
   display: flex;
   align-items: center;

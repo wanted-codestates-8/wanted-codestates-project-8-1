@@ -21,8 +21,8 @@ function SearchBar({ onSubmit, refetch, searchValue }: ISearchBar) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     onSubmit(editingValue)
-    console.log('1')
   }
+
 
   return (
     <Form onSubmit={handleSubmit}>

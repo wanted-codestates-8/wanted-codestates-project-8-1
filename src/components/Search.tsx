@@ -30,8 +30,9 @@ function Search() {
   }, [searchValue])
 
   const showCards = () => {
-    return data?.map((data: any) => <Card key={data.full_name} data={data} />)
+    return data?.map((data: any) => <Card key={data.full_name} data={data} />) 
   }
+
   return (
     <SearchWrapper>
       <BackButton2>
