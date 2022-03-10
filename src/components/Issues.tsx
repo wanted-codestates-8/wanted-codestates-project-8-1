@@ -45,7 +45,7 @@ function Issues({ setViewSide }: RepositoriesProps) {
   return (
     <IssuesWrapper>
       <BackButton onClick={() => setViewSide((prev) => !prev)}>
-        <BsChevronLeft stroke="2px"></BsChevronLeft>
+        <BsChevronLeft strokeWidth="2px"></BsChevronLeft>
       </BackButton>
       <RepoTitle>{data.repositoryName}</RepoTitle>
       <Tag>

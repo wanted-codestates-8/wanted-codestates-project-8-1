@@ -11,6 +11,7 @@ function App() {
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
+        refetchOnMount: false,
       },
     },
   })
@@ -22,9 +23,8 @@ function App() {
           <Repositories setViewSide={setViewSide} />
         </Container>
         <SideContainer className={viewSide ? 'slide-in' : ''}>
-          {/* <Search /> */}
-
-          <Issues setViewSide={setViewSide} />
+          <Search />
+          {/* <Issues setViewSide={setViewSide} /> */}
         </SideContainer>
       </Main>
     </QueryClientProvider>
