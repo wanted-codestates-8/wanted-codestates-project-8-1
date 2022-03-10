@@ -13,9 +13,9 @@ function App() {
         <Repositories setViewSide={setViewSide} />
       </Container>
       <SideContainer className={viewSide ? 'slide-in' : ''}>
-        <Issues />
         <Search />
       </SideContainer>
+      <Issues />
     </Main>
   )
 }
@@ -39,7 +39,7 @@ const SideContainer = styled.div`
   height: 100%;
   top: 0;
   left: 100%;
-  background-color: midnightblue;
+  /* background-color: midnightblue; */
   transition: left 0.5s ease-out;
 
   &.slide-in {
