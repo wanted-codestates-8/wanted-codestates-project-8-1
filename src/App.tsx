@@ -3,14 +3,25 @@ import styled from 'styled-components'
 import Repositories from 'components/Repositories'
 import Search from 'components/Search'
 import Issues from 'components/Issues'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 function App() {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  })
+
   return (
-    <Main>
-      <Container>
-        <Repositories />
-      </Container>
-    </Main>
+    <QueryClientProvider client={queryClient}>
+      <Main>
+        <Container>
+          <Repositories />
+        </Container>
+      </Main>
+    </QueryClientProvider>
   )
 }
 
