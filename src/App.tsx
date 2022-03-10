@@ -17,13 +17,13 @@ function App() {
 const Main = styled.main`
   width: 100vw;
   height: 100vh;
-  background-color: red;
+  /* background-color: red; */
 `
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  background-color: blue;
+  /* background-color: blue; */
   padding: 3.2rem;
 `
 
