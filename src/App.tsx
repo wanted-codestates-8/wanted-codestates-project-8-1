@@ -13,6 +13,7 @@ function App() {
         <Repositories setViewSide={setViewSide} />
       </Container>
       <SideContainer className={viewSide ? 'slide-in' : ''}>
+        <button onClick={() => setViewSide(!viewSide)}>goBack</button>
         <Issues />
         <Search />
       </SideContainer>
@@ -31,6 +32,11 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   padding: 3.2rem;
+  transition: width 0.5s ease-out;
+
+  @media (min-width: 768px) {
+    width: 50%;
+  }
 `
 
 const SideContainer = styled.div`
@@ -44,6 +50,10 @@ const SideContainer = styled.div`
 
   &.slide-in {
     left: 0;
+  }
+
+  @media (min-width: 768px) {
+    left: 50%;
   }
 `
 
