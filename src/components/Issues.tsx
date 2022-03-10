@@ -79,7 +79,7 @@ const IssuesWrapper = styled.section`
   background-color: white;
   padding-top: 20px;
 `
-const BackButton = styled.div`
+export const BackButton = styled.div`
   width: 4rem;
   height: 4rem;
   background-color: #6c84ee;
