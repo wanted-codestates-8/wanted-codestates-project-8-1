@@ -16,14 +16,13 @@ function App() {
   })
 
   return (
-
     <QueryClientProvider client={queryClient}>
       <Main>
         <Container>
           <Repositories setViewSide={setViewSide} />
         </Container>
         <SideContainer className={viewSide ? 'slide-in' : ''}>
-          <Search />
+          {/* <Search /> */}
           <Issues />
         </SideContainer>
       </Main>

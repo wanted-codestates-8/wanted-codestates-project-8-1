@@ -21,25 +21,21 @@ const Repositories = ({ setViewSide }: RepositoriesProps) => {
 
   return (
     <RepositoryWrapper>
-       <HeaderGit>Git</HeaderGit>
+      <HeaderGit>Git</HeaderGit>
       <HeaderHere>here</HeaderHere>
       <Svg>
         <polyline points="0,20 20,20 20,40 40" />
       </Svg>
 
       <SavedRepo>저장된 Repository</SavedRepo>
-      <Title src={Logo} alt="Logo" />
-      <Subtitle>저장된 Repository</Subtitle>
-      <Dummy />
-      <Dummy />
+      <Card />
+      <Card />
+      <Card />
       <AddBtn
         src={AddButton}
         alt="Move to search page"
         onClick={() => setViewSide(true)}
       />
-      <Card />
-      <Card />
-      <Card />
     </RepositoryWrapper>
   )
 }
@@ -62,15 +58,15 @@ const HeaderGit = styled.span`
 `
 
 const HeaderHere = styled(HeaderGit)`
-  color: #6C84EE;
+  color: #6c84ee;
 `
 
 const Svg = styled.svg`
-  width: ${props => props.width || "70px"};
-  height: ${props => props.height || "70px"};
-  fill: ${props => props.fill || "none"};
-  stroke: ${props => props.stroke || "#6C84EE"};
-  stroke-width: ${props => props.strokeWidth || "8"};
+  width: ${(props) => props.width || '70px'};
+  height: ${(props) => props.height || '70px'};
+  fill: ${(props) => props.fill || 'none'};
+  stroke: ${(props) => props.stroke || '#6C84EE'};
+  stroke-width: ${(props) => props.strokeWidth || '8'};
 `
 
 const SavedRepo = styled.div`
