@@ -11,7 +11,6 @@ function App() {
     <Main>
       <Container>
         <Repositories setViewSide={setViewSide} />
-
       </Container>
       <SideContainer className={viewSide ? 'slide-in' : ''}>
         <Issues />
