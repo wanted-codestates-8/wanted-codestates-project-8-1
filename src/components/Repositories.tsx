@@ -1,13 +1,23 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { useState, Dispatch, SetStateAction } from 'react'
 import styled from 'styled-components'
 import Logo from '../assets/logo.svg'
 import AddButton from '../assets/addButton.svg'
+import { useQuery, useQueryClient, useMutation } from 'react-query'
+import { get } from 'api/get'
 
 interface RepositoriesProps {
   setViewSide: Dispatch<SetStateAction<boolean>>
 }
 
 const Repositories = ({ setViewSide }: RepositoriesProps) => {
+  const [page, setPage] = useState(1)
+  const [q, setQ] = useState('wanted')
+  const fetcher = () => get('repositories', { q, page })
+
+  const data = useQuery(['repositories', page], fetcher, {
+    onSettled: (data, error) => {},
+  })
+
   return (
     <RepositoryWrapper>
       <Title src={Logo} alt="Logo" />

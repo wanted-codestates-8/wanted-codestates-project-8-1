@@ -3,20 +3,30 @@ import styled from 'styled-components'
 import Repositories from 'components/Repositories'
 import Search from 'components/Search'
 import Issues from 'components/Issues'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 function App() {
   const [viewSide, setViewSide] = useState(false)
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  })
 
   return (
-    <Main>
-      <Container>
-        <Repositories setViewSide={setViewSide} />
-      </Container>
-      <SideContainer className={viewSide ? 'slide-in' : ''}>
-        <Search />
-      </SideContainer>
-      <Issues />
-    </Main>
+    <QueryClientProvider client={queryClient}>
+      <Main>
+        <Container>
+          <Repositories setViewSide={setViewSide} />
+        </Container>
+        <SideContainer className={viewSide ? 'slide-in' : ''}>
+          <Search />
+        </SideContainer>
+        <Issues />
+      </Main>
+    </QueryClientProvider>
   )
 }
 
