@@ -8,7 +8,8 @@ function App() {
   return (
     <Main>
       <Container>
-        <Repositories />
+        {/* <Repositories /> */}
+        <Search />
       </Container>
     </Main>
   )
