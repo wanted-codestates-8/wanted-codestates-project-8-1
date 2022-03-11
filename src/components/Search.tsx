@@ -32,7 +32,6 @@ function Search({ storageState, setStorageState, setClasses }: SearchProps) {
   }
 
   const showCards = () => {
-    console.log(data)
     if (!data) {
       return null
     } else if (data.total_count === 0) {
