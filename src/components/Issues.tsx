@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { BsChevronLeft } from 'react-icons/bs'
 import { VscIssues } from 'react-icons/vsc'
-import { QueryFunctionContext, useQuery } from 'react-query'
+import { QueryFunctionContext, useQuery, useQueryClient } from 'react-query'
 import { get } from 'api/get'
 import PaginationModule from './PaginationModule'
 import { ClassesObject } from 'types/interface'
@@ -12,9 +12,9 @@ interface IssuesProps {
   setClasses: Dispatch<SetStateAction<ClassesObject>>
 }
 
-interface IIssues {
-  repositoryName: string
-  issue: {
+interface IData {
+  total_count: number
+  items: {
     title: string
     html_url: string
     user: {
@@ -25,11 +25,6 @@ interface IIssues {
 
 function Issues({ clickedRepo, setClasses }: IssuesProps) {
   const [page, setPage] = useState(1)
-  const [totalPageCount, setTotalPageCount] = useState<number>(0)
-  const [items, setItems] = useState<IIssues>({
-    repositoryName: '',
-    issue: [],
-  })
 
   const fetcher = (ctx: QueryFunctionContext) =>
     get('issues', {
@@ -37,42 +32,14 @@ function Issues({ clickedRepo, setClasses }: IssuesProps) {
       page,
     })
 
-  useQuery([page, clickedRepo], fetcher, {
-    enabled: true,
-    onSettled: (data, error) => {
-      const totalCount =
-        data.total_count > 1000 ? 100 : Math.ceil(data.total_count / 10)
-      setTotalPageCount(totalCount)
-
-      const newItems = {
-        repositoryName: clickedRepo,
-        issue: [],
-      }
-
-      newItems.issue = data.items.map((v: IIssues['issue'][0]) => ({
-        title: v.title,
-        html_url: v.html_url,
-        user: {
-          login: v.user.login,
-        },
-      }))
-
-      setItems(newItems)
-    },
+  const { data } = useQuery<IData>([page, clickedRepo], fetcher, {
+    staleTime: 60 * 1000,
+    keepPreviousData: true,
   })
 
   const onPageChange = (e: React.ChangeEvent<unknown>, page: number) => {
     setPage(page)
   }
-
-  useEffect(() => {
-    return () => {
-      setItems({
-        repositoryName: '',
-        issue: [],
-      })
-    }
-  }, [])
 
   return (
     <IssuesWrapper>
@@ -81,8 +48,8 @@ function Issues({ clickedRepo, setClasses }: IssuesProps) {
       >
         <BsChevronLeft strokeWidth="2px"></BsChevronLeft>
       </BackButton>
-      <RepoTitle>{items.repositoryName}</RepoTitle>
-      {items.issue.length !== 0 && (
+      <RepoTitle>{clickedRepo}</RepoTitle>
+      {data?.items.length !== 0 && (
         <Tag>
           <VscIssues
             size="2.4rem"
@@ -92,30 +59,33 @@ function Issues({ clickedRepo, setClasses }: IssuesProps) {
         </Tag>
       )}
       <IssueLists>
-        {items.issue.map((item, idx) => (
-          <IssueList key={idx}>
-            <VscIssues
-              size="2.4rem"
-              style={{
-                margin: '4px 4px 0 0',
-                color: '#197F37',
-                flexShrink: 0,
-              }}
-            />
-            <a href={item.html_url}>
-              <div>
-                <IssueListTitle>{item.title}</IssueListTitle>
-                <IssueListSubTitle>
-                  created by {item.user?.login}
-                </IssueListSubTitle>
-              </div>
-            </a>
-          </IssueList>
-        ))}
+        {data &&
+          data?.items.map((item, idx) => (
+            <IssueList key={idx}>
+              <VscIssues
+                size="2.4rem"
+                style={{
+                  margin: '4px 4px 0 0',
+                  color: '#197F37',
+                  flexShrink: 0,
+                }}
+              />
+              <a href={item.html_url}>
+                <div>
+                  <IssueListTitle>{item.title}</IssueListTitle>
+                  <IssueListSubTitle>
+                    created by {item.user.login}
+                  </IssueListSubTitle>
+                </div>
+              </a>
+            </IssueList>
+          ))}
       </IssueLists>
-      {totalPageCount > 0 && (
+      {data && data.total_count > 0 && (
         <PaginationModule
-          totalPageCount={totalPageCount}
+          totalPageCount={
+            data.total_count > 1000 ? 100 : Math.ceil(data.total_count / 10)
+          }
           page={page}
           onChange={onPageChange}
         />
