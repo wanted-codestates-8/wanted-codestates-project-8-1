@@ -3,30 +3,44 @@ import styled from 'styled-components'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 import { BsRecordCircle } from 'react-icons/bs'
 
-interface CardProps {
+export interface CardProps {
   data: {
     full_name: string
     avatar_url: string
     stargazers_count: number
     open_issues: number
-  }
+  },
+  starred: boolean
 }
 
-export default function Card({ data }: CardProps) {
-  const [clickedStar, SetClickedStar] = useState(false);
+export default function Card({ data, starred }: CardProps) {
+  const [clickedStar, SetClickedStar] = useState(starred);
 
   const handleStar = () => {
     SetClickedStar(!clickedStar);
-    console.log(data);
-    localStorage.setItem('favorite', 
-    JSON.stringify({
-      full_name: data.full_name, 
-      avatar_url: data.avatar_url, 
-      open_issues: data.open_issues, 
-      stargazers_count: data.stargazers_count}));
+    const container: CardProps['data'][] = JSON.parse(localStorage.getItem('favorite') || '[]');
+    const index = container.findIndex(item => (item.full_name === data.full_name));
     
-    // JSON.parse(localStorage.getItem('favorite'))
-    console.log(localStorage, "local");
+    if (index >= 0) {
+      container.splice(index, 1);
+      if (container.length === 0) {
+        localStorage.removeItem('favorite')
+      } else {
+        localStorage.setItem('favorite', JSON.stringify(container));  
+      }
+    } else if (container.length < 4) {
+      container.push({
+        full_name: data.full_name, 
+        avatar_url: data.avatar_url, 
+        open_issues: data.open_issues, 
+        stargazers_count: data.stargazers_count});
+      
+      localStorage.setItem('favorite', JSON.stringify(container));  
+    } else {
+      alert("즐겨찾기는 최대 4개까지만 추가할 수 있습니다.");
+    }
+    
+    console.log(container, "container");
     }
 
 
