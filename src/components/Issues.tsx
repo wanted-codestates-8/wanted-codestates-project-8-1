@@ -6,7 +6,7 @@ import { QueryFunctionContext, useQuery } from 'react-query'
 import { get } from 'api/get'
 import PaginationModule from './PaginationModule'
 import { ClassesObject, IIssue, IssuesProps } from 'types/interface'
-import { NoItem, NoItemWrapper, SkeletonBox } from './Search'
+import { NoItem, SkeletonBox } from './Search'
 
 function Issues({ clickedRepo, setClasses }: IssuesProps) {
   const [page, setPage] = useState(1)
