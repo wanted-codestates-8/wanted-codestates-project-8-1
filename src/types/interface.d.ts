@@ -66,3 +66,7 @@ export interface IRepo {
 export interface ISearchBar {
   onSubmit: (value: string) => void
 }
+
+export interface ISkeleton {
+  isRepo?: boolean = true
+}
