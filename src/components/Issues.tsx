@@ -1,9 +1,11 @@
 import React, { Dispatch, SetStateAction, useState } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { BsChevronLeft } from 'react-icons/bs'
 import { VscIssues } from 'react-icons/vsc'
-import { useQuery, useQueryClient, useMutation } from 'react-query'
+import { useQuery } from 'react-query'
 import { get } from 'api/get'
+import { Pagination, PaginationItem } from '@mui/material'
+import PaginationModule from './PaginationModule'
 
 interface RepositoriesProps {
   clickedRepo: string
@@ -55,6 +57,10 @@ function Issues({ setViewSide, clickedRepo }: RepositoriesProps) {
     },
   })
 
+  const onPageChange = (e: React.ChangeEvent<unknown>, page: number) => {
+    setPage(page)
+  }
+
   return (
     <IssuesWrapper>
       <BackButton onClick={() => setViewSide((prev) => !prev)}>
@@ -64,7 +70,7 @@ function Issues({ setViewSide, clickedRepo }: RepositoriesProps) {
       <Tag>
         <VscIssues
           size={24}
-          style={{ margin: '4px 4px 0 0', color: 'white' }}
+          style={{ margin: '4px 4px 0 0', color: '#197F37' }}
         ></VscIssues>
         <div>open</div>
       </Tag>
@@ -86,13 +92,20 @@ function Issues({ setViewSide, clickedRepo }: RepositoriesProps) {
           </IssueList>
         ))}
       </IssueLists>
+      {totalPageCount > 0 && (
+        <PaginationModule
+          totalPageCount={totalPageCount}
+          page={page}
+          onChange={onPageChange}
+        />
+      )}
     </IssuesWrapper>
   )
 }
 
 const IssuesWrapper = styled.section`
   width: 100%;
-  height: 100%;
+  height: fit-content;
   background-color: white;
   padding: 3.2rem;
   box-sizing: border-box;
@@ -144,7 +157,7 @@ const Tag = styled.div`
   width: 80px;
   padding: 0 0 2px 0;
   margin-top: 20px;
-  background-color: #6c84ee;
-  color: white;
+  color: #197f37;
+  border: solid 1px #197f37;
 `
 export default Issues

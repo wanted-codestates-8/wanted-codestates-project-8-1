@@ -1,24 +1,33 @@
-import React, { useState, Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import styled from 'styled-components'
-import Logo from '../assets/logo.svg'
 import AddButton from '../assets/addButton.svg'
-import { get } from 'api/get'
-import Card, { CardProps } from './Card'
+import Card from './Card'
+import { IItems } from './Search'
 
 interface RepositoriesProps {
   setViewSide: Dispatch<SetStateAction<boolean>>
+  storageState: IItems[]
+  setStorageState: Dispatch<SetStateAction<IItems[]>>
 }
 
-const Repositories = ({ setViewSide }: RepositoriesProps) => {
-  const storage: CardProps['data'][] = JSON.parse(
-    localStorage.getItem('favorite') || '[]'
-  )
-
+const Repositories = ({
+  setViewSide,
+  storageState,
+  setStorageState,
+}: RepositoriesProps) => {
   const showCards = () => {
-    return storage?.map((data: any) => {
+    return storageState?.map((data: any) => {
       const starred =
-        storage.findIndex((item) => item.full_name === data.full_name) >= 0
-      return <Card starred={starred} key={data.full_name} data={data} />
+        storageState.findIndex((item) => item.full_name === data.full_name) >= 0
+      return (
+        <Card
+          starred={starred}
+          key={data.full_name}
+          data={data}
+          storageState={storageState}
+          setStorageState={setStorageState}
+        />
+      )
     })
   }
 
@@ -109,7 +118,7 @@ const AddBtn = styled.img`
   display: block;
   width: 6rem;
   height: 6rem;
-  margin: 0 auto;
+  margin: 2rem auto;
 `
 
 export default Repositories

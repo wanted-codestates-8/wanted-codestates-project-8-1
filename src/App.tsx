@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Repositories from 'components/Repositories'
 import Search from 'components/Search'
 import Issues from 'components/Issues'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { CardProps } from 'components/Card'
 
 function App() {
   const [viewSide, setViewSide] = useState(false)
+  const [storageState, setStorageState] = useState<CardProps['data'][]>([])
   const [clickedRepo, setClickedRepo] = useState<string>(
     'chltjdrhd777/my-record'
   )
@@ -19,15 +21,26 @@ function App() {
     },
   })
 
+  useEffect(() => {
+    localStorage.setItem('favorite', JSON.stringify(storageState))
+  }, [storageState])
+
   return (
     <QueryClientProvider client={queryClient}>
       <Main>
         <Container>
-          <Repositories setViewSide={setViewSide} />
+          <Repositories
+            setViewSide={setViewSide}
+            storageState={storageState}
+            setStorageState={setStorageState}
+          />
         </Container>
         <SideContainer className={viewSide ? 'slide-in' : ''}>
-          <button onClick={() => setViewSide(!viewSide)}>close </button>
-          <Search />
+          <Search
+            setViewSide={setViewSide}
+            storageState={storageState}
+            setStorageState={setStorageState}
+          />
           {/* <Issues setViewSide={setViewSide} clickedRepo={clickedRepo} /> */}
         </SideContainer>
       </Main>

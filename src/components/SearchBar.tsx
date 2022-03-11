@@ -1,28 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { HiSearch } from 'react-icons/hi'
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  RefetchQueryFilters,
-} from 'react-query'
 
 interface ISearchBar {
   onSubmit: (value: string) => void
-  refetch: <TPageData>(
-    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
-  ) => Promise<QueryObserverResult<any, unknown>>
-  searchValue: String
 }
 
-function SearchBar({ onSubmit, refetch, searchValue }: ISearchBar) {
+function SearchBar({ onSubmit }: ISearchBar) {
   const [editingValue, setEditingValue] = useState<string>('')
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     onSubmit(editingValue)
   }
-
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -31,6 +21,7 @@ function SearchBar({ onSubmit, refetch, searchValue }: ISearchBar) {
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setEditingValue(e.target.value)
         }
+        placeholder="Search Repository"
       />
       <Button type="submit">
         <HiSearch />
@@ -40,7 +31,7 @@ function SearchBar({ onSubmit, refetch, searchValue }: ISearchBar) {
 }
 
 const Input = styled.input`
-  width: 30rem;
+  width: 100%;
   padding: 0;
   border: none;
   outline: none;
@@ -53,8 +44,8 @@ const Button = styled.button`
 const Form = styled.form`
   display: flex;
   overflow: hidden;
-  width: fit-content;
-  padding: 10px;
+  width: 100%;
+  padding: 1rem;
   border: 1px solid #e5e5e5;
   background-color: white;
   border-radius: 20px;
