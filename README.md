@@ -2,31 +2,30 @@
 
 WANTED & CODESTATES 프리온보딩 코스
 
-TEAM 8 팀기업과제 3번 입니다.
+TEAM 8 팀기업과제 1번 입니다.
 
 <br>
 
-### < 로그프레소 >
+### < 페이히어 >
 
-PROJECT PERIOD: 2022.03.07 ~ 2022.03.08
+PROJECT PERIOD: 2022.03.10 ~ 2022.03.11
 
 <br>
 
-[배포링크](https://wanted-8-3-i7.netlify.app/)
+[배포링크](https://wanted-8-1-i7.netlify.app/)
 
 <br>
 
 ## ✨ 주요 기능
 
-- Available Options와 Selected Options로 나뉘어져있는 듀얼셀렉터입니다.
-- 초기셋팅으로 데이터가 양쪽으로 나뉘어져있으며 사용자의 선택에 따라 Available이 될 수도 Selected가 될 수도 있습니다.
-- 옵션 이동은 드래그 앤 드롭으로도 가능하고 셀렉터의 가운데 버튼메뉴로도 가능합니다.
-- 버튼메뉴는 순서대로 초기화 | 전부 옮기기(>> / <<) | 선택된 항목 옮기기(> / <) 입니다.
-- 아이템 선택은 Ctrl버튼, Shift버튼 모두 적용됩니다.
-- 아이템 순서 변경도 드래그 앤 드롭으로 가능합니다.
-- 소메뉴에서는 타이틀 및 아이템 폰트 사이즈, 가로세로 크기 변경이 가능하며 검색창, 선택된 아이템 갯수 창을 켜고 끌 수 있습니다.
-- 소메뉴에서 하나씩만 옮기기 옵션을 ON 했을 시에는 Ctrl, Shift 버튼이 적용되지 않습니다.
-- 검색기능은 각각의 옵션에서 적용됩니다.
+- 사용자가 자주 찾는 GitHub의 Public Repository의 Issue들을 모아서 볼 수 있습니다.
+- 검색창에 Repository 명을 입력해서 Repository를 검색할 수 있습니다.
+- 검색 된 Public Repository를 즐겨찾기로 등록할 수 있습니다. 즐겨찾기는 최대 4개까지 가능하며 이를 초과시 모달창이 나타납니다.
+- 즐겨찾기에 등록한 Public Repository를 즐겨찾기에서 삭제할 수 있으며 이는 검색창에서 나타나는 Repository 상태와도 연동됩니다.
+- 등록된 각각의 Public Repository의 Issue를 한 페이지에서 모아 볼 수 있습니다.
+- 각 Issue의 Repository 명이 표시되며 해당 issue를 클릭하면 GitHub의 상세페이지로 이동할 수 있습니다.
+- 검색과 Issue는 페이지네이션으로 구분되어 계속해서 탐색할 수 있습니다.
+- 모바일 반응형으로 제작되어 웹페이지와 모바일 기기에 구현받지 않아 긍정적인 UX에 기여합니다.
 
 <br>
 
@@ -34,45 +33,30 @@ PROJECT PERIOD: 2022.03.07 ~ 2022.03.08
 
 <br>
 
-- 소메뉴: 크기 / 타이틀 변경
+- GitHub 검색 및 즐겨찾기 등록/해제
 
-<img src="https://user-images.githubusercontent.com/85816029/157239566-d1c81750-371e-4004-854f-68185c72a4b4.gif" width="700px" height="450px">
-
-<br>
-
-- 소메뉴: 타이틀, 검색창, 선택된 아이템 갯수 ON / OFF 및 글자 크기 변경
-
-<img src="https://user-images.githubusercontent.com/85816029/157239504-378dbcb4-b68e-42a3-bba9-e4c353a8cd79.gif" width="700px" height="450px">
+<img src="https://user-images.githubusercontent.com/85816029/157882128-3e8d8a46-a497-4b41-89de-c6e4ab84d0a6.gif" width="850px" height="450px">
+<img src="https://user-images.githubusercontent.com/85816029/157882638-3ac0d386-0f3f-4f64-839b-abec378400e1.gif" width="850px" height="450px">
+<img src="https://user-images.githubusercontent.com/85816029/157882103-c79733e5-cf2e-4c03-bb9c-410484c94ffe.png" width="850px" height="450px">
 
 <br>
 
-- 중앙 버튼
+- Issue 페이지 모아보기 및 상세페이지 이동
 
-<img src="https://user-images.githubusercontent.com/85816029/157239546-ed02f8c4-ee94-4099-a43c-6195cdaa3e92.gif" width="700px" height="450px">
-
-<br>
-
-- 검색 기능
-
-<img src="https://user-images.githubusercontent.com/85816029/157239883-31ff13d5-3721-4fd3-a4c5-04bb37c4656f.gif" width="700px" height="450px">
+<img src="https://user-images.githubusercontent.com/85816029/157883881-69127015-3733-433d-bc9c-4421c583257a.gif" width="850px" height="450px">
 
 <br>
 
-- Ctrl 기능 시연
+- 페이지네이션
 
-<img src="https://user-images.githubusercontent.com/85816029/157239529-5f21c62e-d0d9-4da5-8731-51b6ebcf31c7.gif" width="700px" height="450px">
-
-<br>
-
-- Shift 기능 시연
-
-<img src="https://user-images.githubusercontent.com/85816029/157239536-2cd3325b-8251-4f80-a34b-e3e1a60eb070.gif" width="700px" height="450px">
+<img src="https://user-images.githubusercontent.com/85816029/157881054-71e919b2-d186-4709-9433-e36141aaced2.png" width="850px" height="450px">
+<img src="https://user-images.githubusercontent.com/85816029/157881069-2dc8f6f9-dfbe-4b6e-9e76-bf633e1611c8.png" width="850px" height="450px">
 
 <br>
 
-- Ctrl / Shift 기능 시연
+- 모바일 반응형
 
-<img src="https://user-images.githubusercontent.com/85816029/157239542-1bd30a98-064c-42e1-83dd-0aca5ee35667.gif" width="700px" height="450px">
+![ezgif com-gif-maker (3)](https://user-images.githubusercontent.com/85816029/157886839-f8030494-c80e-411a-a19a-0e858661628c.gif)
 
 <br>
 
@@ -80,72 +64,90 @@ PROJECT PERIOD: 2022.03.07 ~ 2022.03.08
 
 <br>
 
-1. 리덕스
+1. Header 및 Card 컴포넌트 제작
 
-[ 김진기 ]
+[ 박성현 ] 
 
 - 구현 내용 & 방법
-  - 리덕스 데이터 구조 구현
-  - 검색창 필터링 기능 구현
+    - Card 컴포넌트 제작
 - 구현하면서 어려웠던 점
-  - redux-persist와 redux-toolkit을 처음 사용해봐서 익히는 데 시간이 조금 걸렸습니다.
-  - 한 파일에서 여러 명이 작업을 하다보니 머지할 때 쉽지 않았습니다.
+    - 레포지토리 정보가 담긴 Card UI를 제작하였습니다.
 
 <br>
 
-2. 셀렉터
-
-[ 이승우 ]
+[ 김혜영 ] 
 
 - 구현 내용 & 방법
-  - 드래그 앤 드롭 기능 구현
-  - 버튼 기능 구현
-  - shift + 클릭 기능 구현
+  - Header 부분 및 Card 컴포넌트 별점 부분 작성
+  - Local Storaged 데이터 저장 부분 작성
 - 구현하면서 어려웠던 점
-  - 단일 클릭, ctrl + 클릭, shift + 클릭이 각각 적용될 때와 혼합되어 적용될 경우의 수가 많아서 적절한 동작을 하도록 로직을 분리하는 것에서 시행착오를 겪었습니다.
+  - Header의 로고 부분을 작성할 때 svg로 직접 그리는 부분에서 간단한 부분인데도 익숙치 않아 시간이 많이 걸렸습니다.
+  - 즐겨찾기를 한 Repository의 별점 상태와 Local Storage에 정보가 저장되고 이를 다른 컴포넌트 들에 props로 내려주어 연동해주면서 계속 Card 컴포넌트를 리렌더링 하게 만드는 부분을 작성하는 것이 어려웠습니다. 
+
+<br>
+
+2. 모바일 반응형 및 컴포넌트 별 transition 전환
 
 [ 변건오 ]
 
 - 구현 내용 & 방법
-  - 단일 클릭, ctrl + 클릭 기능, CSS 구현
+    - 초기 반응형 레이아웃 구현
+    - Repository component & LocalStorage 데이터 연동
 - 구현하면서 어려웠던 점
-  - styled-components에 원하는 데이터를 보내는 것이 어려웠는데 배열도 보내는게 가능한 것을 알고 원하는 데이터를 보내 조건에 따라 css 스타일 변화를 주었다.
-  - 클릭 이벤트에 많은 일을 처리해야 해서 좋은 코드로 짜기 어려웠다.
-
-[ 김혜영 ]
-
-- 구현 내용 & 방법
-  - Header / Selected Option / Footer 컴포넌트 작성
-- 구현하면서 어려웠던 점
-  - next.js에서 이미지 로드할 때는 next image를 따로 깔아야 한다는 것을 배웠습니다.
-  - hover 같은 css는 이제 무리없이 다룰 수 있지만 상태와 연동시키는 부분에서 아직 미흡하여 추가 공부가 필요한 것 같습니다.
+    - 한 화면에 여러 컴포넌트를 어떻게 보여줄지, Tab을 이용해서 보여줄지 고민이 되었습니다.
+    - 전역 상태 관리가 필요하지 않을 것 같아 redux를 쓰지 않고 props를 전달하여 상태를 변경하니 컴포넌트 별로 상태 관리를 한 것과 충돌을 하여 제대로 동작하지 않아 하나의 전역 상태를 통해 상태 관리를 하도록 변경하였습니다.
 
 <br>
 
-3. 소메뉴
-
-[ 김희진 ]
+[ 김진기 ] 
 
 - 구현 내용 & 방법
-  - option list component 제작했습니다.
+    - 메인 페이지 레이아웃 구성
+    - 메인 페이지에서 검색 페이지, 이슈 페이지 열리도록 구현
+    - 반응형 레이아웃 구현
 - 구현하면서 어려웠던 점
-  - redux와의 연동을 위해 컴포넌트의 아톰화의 중요성을 배웠습니다.
+    - window.onresize 이벤트를 그냥 사용하면 CPU 사용율이 100%를 찍어서 throttling을 이용하여 해결했습니다.
+    - throttling이 적용된 window.onresize 이벤트로 반응형을 구현한 컴포넌트와 media query를 사용하여 반응형을 구현한 컴포넌트 사이의 레이아웃 변화 시점이 미묘하게 차이가 나서 이를 해결하기 위해 media query를 포기하고 onresize 이벤트로만 반응형 레이아웃을 구현하였습니다.
 
-[ 박성현 ]
+
+<br>
+
+3. Issue 컴포넌트 제작
+
+[ 김희진 ] 
 
 - 구현 내용 & 방법
-  - radio 컴포넌트 구현.
+    - issue component 제작
 - 구현하면서 어려웠던 점
-  - redux의 사용법과 타입스크립트 설정하는것이 어려웠습니다.
+    - 컴포넌트를 선택하면 보이는 issue들이 보이게 제작하였습니다.
+    - 각각의 issue를 선택하면 git-hub의 issue page로 이동이 가능하게 제작하였습니다.
+    - API호출과 연동시 react-query를 사용하여 팀원분의 도움으로 구현이 가능하게 만들었습니다. 직접 프로젝트에 적용해 보지는 못하였지만, 별도로 공부를 해 보았습니다.
+    
+<br>
 
-[ 최우철 ]
+4. Search 컴포넌트 및 페이지네이션 구현
+
+[ 최우철 ] 
 
 - 구현 내용 & 방법
-  - 옵션 컴포넌트 제작 및 리덕스에 해당 상태 반영 로직을 구현하였습니다.
-  - 이번 기능의 메인 핵심이었던 shift와 click으로 블록처리하는 기능은 담당이 아니었지만 공부를 위해 구현해보았습니다.
+    - React-query를 이용한 api 통신로직 및 github 데이터 조회를 통한 필요 데이터 저장 구현
+    - search 컴포넌트와 연동하여 비동기 api 요청 처리 및 컴포넌트 업데이트 구현
 - 구현하면서 어려웠던 점
-  - 옵션 컴포넌트의 상태내용을 업데이트하는 도중 width와 height에 따라 컴포넌트가 변경되는 내용이 있었는데, 1px일 경우 크기가 단번에 줄어드는 모습을 보여 UX적으로 좋지 않았기 때문에 해당 데이터가 리덕스에 디스패치되는것을 디바운스를 통해 적용되도록 하였습니다
-  - 리스트 블록 처리기능에 있어서 일반클릭, ctrl+클릭, shift+클릭에 따른 블록로직의 구현에 있어 모든 케이스의 경우의 수가 상당히 많아졌기 때문에 제대로 분리해서 작성하지 않을 경우 로직이 충돌할 가능성이 매우 높았습니다. 때문에 많은 집중을 요하는 작업이 되었습니다.
+    - react-query가 기본적으로 제공해주는 stale의 개념과, 각종 초기 옵션(window focusing시에 자동 api 요청등을 실행하지 못하도록 끄는 등) 을 확인하는 일에 어려움이 있었습니다.
+    - 해당 비동기로 얻어온 데이터 내용을 기존 다른 팀원이 작성한 컴포넌트의 내부 상태구조와 연동시키기 위해 데이터를 변경하는 과정에서 어려움이 있었습니다. 그 중간에 select라는 전처리기 미들웨어를 배울 수 있었던 것은 큰 수확이라고 생각합니다.
+
+<br>
+
+[ 이승우 ] 
+
+- 구현 내용 & 방법
+    - SearchBar 컴포넌트 구현
+    - 검색시 API 호출한 데이터와 연동
+    - 페이지네이션 모듈 공통화
+    - 레포 검색, 이슈 목록 페이지네이션 구현
+- 구현하면서 어려웠던 점
+    - 검색한 값과 리액트 쿼리로 API 호출한 것을 연동하는 부분에서 리액트 쿼리를 처음 접하다보니 시행착오를 겪었습니다.
+    - 페이지네이션 구현에서 라이브러리를 사용했는데 디자인 부분에서 rem을 사용하다보니 페이지 숫자 크기가 너무 작아졌습니다. 그것을 포함하여 추가적으로 css 커스터마이징하는 것에서 시행착오를 겪었습니다.
 
 <br>
 
@@ -153,37 +155,31 @@ PROJECT PERIOD: 2022.03.07 ~ 2022.03.08
 
 ```
 ├── README.md
-├── components
-│   ├── Buttons.tsx
-│   ├── Footer.tsx
-│   ├── Header.tsx
-│   ├── OptionInput.tsx
-│   ├── OptionLists.tsx
-│   ├── Options.tsx
-│   ├── Radio.tsx
-│   ├── SearchBar.tsx
-│   └── Setting.tsx
-├── next-env.d.ts
-├── next.config.js
+├── package-lock.json
 ├── package.json
-├── pages
-│   ├── _app.tsx
-│   ├── _document.tsx
-│   ├── api
-│   │   └── hello.ts
-│   └── index.tsx
 ├── public
-│   ├── favicon.ico
-│   ├── logo-default.svg
-│   └── vercel.svg
-├── redux
-│   ├── sample_data.js
-│   ├── slice.ts
-│   └── store.ts
-├── tsconfig.json
-├── utils
-│   └── debounce.ts
-└── yarn.lock
+│   └── index.html
+├── src
+│   ├── App.tsx
+│   ├── api
+│   │   └── get.ts
+│   ├── assets
+│   │   ├── addButton.svg
+│   │   └── logo.svg
+│   ├── components
+│   │   ├── Card.tsx
+│   │   ├── Issues.tsx
+│   │   ├── PaginationModule.tsx
+│   │   ├── PlusButton.tsx
+│   │   ├── Repositories.tsx
+│   │   ├── Search.tsx
+│   │   └── SearchBar.tsx
+│   ├── global.ts
+│   ├── index.tsx
+│   └── types
+│       ├── image.d.ts
+│       └── interface.d.ts
+└── tsconfig.json
 ```
 
 <br>
@@ -195,11 +191,10 @@ front-end
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
+![React Query](https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white)
 ![Styled Components](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
-![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
 
 dev-ops
 
@@ -217,10 +212,10 @@ community
 
 |     이름     | 포지션 |                                                                  깃헙                                                                   |
 | :----------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------: |
-| 박성현(팀장) | Front  |   [![github](https://img.shields.io/badge/박성현-181717?style=flat-square&logo=GitHub&logoColor=white)](https://github.com/psh9408p)    |
+| 변건오(팀장) | Front  |    [![github](https://img.shields.io/badge/변건오-181717?style=flat-square&logo=GitHub&logoColor=white)](https://github.com/guno517)    |
+| 박성현(팀원) | Front  |   [![github](https://img.shields.io/badge/박성현-181717?style=flat-square&logo=GitHub&logoColor=white)](https://github.com/psh9408p)    |
 | 김희진(팀원) | Front  |  [![github](https://img.shields.io/badge/김희진-181717?style=flat-square&logo=GitHub&logoColor=white)](https://github.com/chloe41297)   |
 | 김혜영(팀원) | Front  | [![github](https://img.shields.io/badge/김혜영-181717?style=flat-square&logo=GitHub&logoColor=white)](https://github.com/hit-that-drum) |
 | 김진기(팀원) | Front  |   [![github](https://img.shields.io/badge/김진기-181717?style=flat-square&logo=GitHub&logoColor=white)](https://github.com/hatoba29)    |
 | 최우철(팀원) | Front  | [![github](https://img.shields.io/badge/최우철-181717?style=flat-square&logo=GitHub&logoColor=white)](https://github.com/chltjdrhd777/) |
-| 변건오(팀원) | Front  |    [![github](https://img.shields.io/badge/변건오-181717?style=flat-square&logo=GitHub&logoColor=white)](https://github.com/guno517)    |
 | 이승우(팀원) | Front  |   [![github](https://img.shields.io/badge/이승우-181717?style=flat-square&logo=GitHub&logoColor=white)](https://github.com/starhn87)    |
