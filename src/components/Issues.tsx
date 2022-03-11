@@ -5,6 +5,7 @@ import { VscIssues } from 'react-icons/vsc'
 import { useQuery } from 'react-query'
 import { get } from 'api/get'
 import { Pagination, PaginationItem } from '@mui/material'
+import PaginationModule from './PaginationModule'
 
 interface RepositoriesProps {
   clickedRepo: string
@@ -92,15 +93,10 @@ function Issues({ setViewSide, clickedRepo }: RepositoriesProps) {
         ))}
       </IssueLists>
       {totalPageCount > 0 && (
-        <Pagination
-          count={totalPageCount}
+        <PaginationModule
+          totalPageCount={totalPageCount}
           page={page}
-          color="primary"
           onChange={onPageChange}
-          size="large"
-          renderItem={(item) => (
-            <PaginationItem {...item} sx={{ fontSize: '1.8rem' }} />
-          )}
         />
       )}
     </IssuesWrapper>
@@ -109,7 +105,7 @@ function Issues({ setViewSide, clickedRepo }: RepositoriesProps) {
 
 const IssuesWrapper = styled.section`
   width: 100%;
-  height: 100%;
+  height: fit-content;
   background-color: white;
   padding: 3.2rem;
   box-sizing: border-box;

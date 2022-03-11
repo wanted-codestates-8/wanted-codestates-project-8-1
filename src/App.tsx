@@ -27,7 +27,7 @@ function App() {
         </Container>
         <SideContainer className={viewSide ? 'slide-in' : ''}>
           <Search setViewSide={setViewSide} />
-          {/* <Issues setViewSide={setViewSide} clickedRepo={clickedRepo} /> */}
+          <Issues setViewSide={setViewSide} clickedRepo={clickedRepo} />
         </SideContainer>
       </Main>
     </QueryClientProvider>
