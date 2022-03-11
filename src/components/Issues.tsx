@@ -1,41 +1,61 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { BsChevronLeft } from 'react-icons/bs'
 import { VscIssues } from 'react-icons/vsc'
+import { useQuery, useQueryClient, useMutation } from 'react-query'
+import { get } from 'api/get'
 
-const data = {
-  repositoryName: '레포 네임',
-
-  issue: [
-    {
-      title: '[Feat]dddd',
-
-      html_url:
-        'https://github.com/wanted-codestates-8/wanted-codestates-project-8-1/issues/1',
-      user: {
-        login: 'chloe41297',
-      },
-    },
-    {
-      title: '[Feat]dddd',
-
-      html_url:
-        'https://github.com/wanted-codestates-8/wanted-codestates-project-8-1/issues/1',
-      user: {
-        login: 'chloe41297',
-      },
-    },
-    {
-      title: '[Feat]dddd',
-
-      html_url:
-        'https://github.com/wanted-codestates-8/wanted-codestates-project-8-1/issues/1',
-      user: {
-        login: 'chloe41297',
-      },
-    },
-  ],
+interface RepositoriesProps {
+  clickedRepo: string
+  setViewSide: Dispatch<SetStateAction<boolean>>
 }
+
+export interface Items {
+  repositoryName: string
+  issue: {
+    title: string
+    html_url: string
+    user: {
+      login: string
+    }
+  }[]
+}
+
+function Issues({ setViewSide, clickedRepo }: RepositoriesProps) {
+  const [page, setPage] = useState(1)
+  const [totalPageCount, setTotalPageCount] = useState<number>(0)
+  const [items, setItems] = useState<Items>({
+    repositoryName: '',
+    issue: [],
+  })
+
+  const fetcher = () => get('issues', { q: `repo:${clickedRepo}`, page })
+
+  const { data, refetch } = useQuery(['issues', page], fetcher, {
+    enabled: true,
+    onSettled: (data, error) => {
+      const totalCount =
+        data.total_count > 1000 ? 100 : Math.ceil(data.total_count / 10)
+      setTotalPageCount(totalCount)
+
+      const newItems = {
+        repositoryName: clickedRepo,
+        issue: [] as any,
+      }
+
+      newItems.issue = data.items.map((v: any) => ({
+        title: v.title,
+        html_url: v.html_url,
+        user: {
+          login: v.user.login,
+        },
+      }))
+
+      setItems(newItems)
+    },
+  })
+
+  console.log(data)
 
 interface RepositoriesProps {
   setViewSide: Dispatch<SetStateAction<boolean>>
@@ -47,7 +67,7 @@ function Issues({ setViewSide }: RepositoriesProps) {
       <BackButton onClick={() => setViewSide((prev) => !prev)}>
         <BsChevronLeft strokeWidth="2px"></BsChevronLeft>
       </BackButton>
-      <RepoTitle>{data.repositoryName}</RepoTitle>
+      <RepoTitle>{items.repositoryName}</RepoTitle>
       <Tag>
         <VscIssues
           size={24}
@@ -56,7 +76,7 @@ function Issues({ setViewSide }: RepositoriesProps) {
         <div>open</div>
       </Tag>
       <IssueLists>
-        {data.issue.map((item, idx) => (
+        {items.issue.map((item: any, idx: any) => (
           <IssueList key={idx}>
             <VscIssues
               size={24}
