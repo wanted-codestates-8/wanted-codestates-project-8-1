@@ -1,27 +1,11 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { BsChevronLeft } from 'react-icons/bs'
 import { VscIssues } from 'react-icons/vsc'
-import { QueryFunctionContext, useQuery, useQueryClient } from 'react-query'
+import { QueryFunctionContext, useQuery } from 'react-query'
 import { get } from 'api/get'
 import PaginationModule from './PaginationModule'
-import { ClassesObject } from 'types/interface'
-
-interface IssuesProps {
-  clickedRepo: string
-  setClasses: Dispatch<SetStateAction<ClassesObject>>
-}
-
-interface IData {
-  total_count: number
-  items: {
-    title: string
-    html_url: string
-    user: {
-      login: string
-    }
-  }[]
-}
+import { ClassesObject, IIssue, IssuesProps } from 'types/interface'
 
 function Issues({ clickedRepo, setClasses }: IssuesProps) {
   const [page, setPage] = useState(1)
@@ -32,7 +16,7 @@ function Issues({ clickedRepo, setClasses }: IssuesProps) {
       page,
     })
 
-  const { data } = useQuery<IData>([page, clickedRepo], fetcher, {
+  const { data } = useQuery<IIssue>([page, clickedRepo], fetcher, {
     staleTime: 60 * 1000,
     keepPreviousData: true,
   })
@@ -44,7 +28,9 @@ function Issues({ clickedRepo, setClasses }: IssuesProps) {
   return (
     <IssuesWrapper>
       <BackButton
-        onClick={() => setClasses((prev) => ({ ...prev, sideContainer: '' }))}
+        onClick={() =>
+          setClasses((prev: ClassesObject) => ({ ...prev, sideContainer: '' }))
+        }
       >
         <BsChevronLeft strokeWidth="2px"></BsChevronLeft>
       </BackButton>

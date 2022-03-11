@@ -1,19 +1,14 @@
-import React, { useState, Dispatch, SetStateAction } from 'react'
+import React, { useState } from 'react'
 import { BsChevronLeft } from 'react-icons/bs'
 import styled from 'styled-components'
 import { BackButton } from './Issues'
 import SearchBar from './SearchBar'
 import { QueryFunctionContext, useQuery } from 'react-query'
 import { get } from 'api/get'
-import Card from './Card'
+import Card, { CardWrap } from './Card'
 import PaginationModule from './PaginationModule'
-import { ClassesObject, ICard } from 'types/interface'
-
-interface SearchProps {
-  storageState: ICard[]
-  setStorageState: Dispatch<SetStateAction<ICard[]>>
-  setClasses: Dispatch<SetStateAction<ClassesObject>>
-}
+import { ClassesObject, IRepo, SearchProps } from 'types/interface'
+import { Skeleton } from '@mui/material'
 
 function Search({ storageState, setStorageState, setClasses }: SearchProps) {
   const [searchValue, setSearchValue] = useState<string>('')
@@ -27,7 +22,7 @@ function Search({ storageState, setStorageState, setClasses }: SearchProps) {
     return get('repositories', { q: `${ctx.queryKey[1]} in:name`, page })
   }
 
-  const { data } = useQuery([page, searchValue], fetcher, {
+  const { data, isFetching } = useQuery([page, searchValue], fetcher, {
     staleTime: 60 * 1000,
     keepPreviousData: true,
   })
@@ -41,7 +36,7 @@ function Search({ storageState, setStorageState, setClasses }: SearchProps) {
       return null
     }
 
-    return data.items.map((d: any) => {
+    return data.items.map((d: IRepo, index: number) => {
       const starred =
         storageState.findIndex((item) => item.full_name === d.full_name) >= 0
 
@@ -55,8 +50,8 @@ function Search({ storageState, setStorageState, setClasses }: SearchProps) {
       return (
         <Card
           starred={starred}
-          key={data.full_name}
-          data={newItems}
+          key={index}
+          card={newItems}
           storageState={storageState}
           setStorageState={setStorageState}
         />
@@ -67,12 +62,16 @@ function Search({ storageState, setStorageState, setClasses }: SearchProps) {
   return (
     <SearchWrapper>
       <BackButton2
-        onClick={() => setClasses((prev) => ({ ...prev, sideContainer: '' }))}
+        onClick={() =>
+          setClasses((prev: ClassesObject) => ({ ...prev, sideContainer: '' }))
+        }
       >
         <BsChevronLeft strokeWidth="2px"></BsChevronLeft>
       </BackButton2>
       <SearchBar onSubmit={setSearchValue} />
-      {data && showCards()}
+      {isFetching
+        ? new Array(10).fill(0).map((i) => <SkeletonBox />)
+        : showCards()}
       {data && (
         <PaginationModule
           totalPageCount={
@@ -85,6 +84,34 @@ function Search({ storageState, setStorageState, setClasses }: SearchProps) {
     </SearchWrapper>
   )
 }
+
+const SkeletonBox = () => (
+  <SkeletonWrapper>
+    <Skeleton animation="wave" />
+    <Skeleton animation="wave" height={18} />
+    <Skeleton
+      animation="wave"
+      variant="circular"
+      width={25}
+      height={25}
+      sx={{ float: 'left', marginRight: 5 }}
+    />
+    <Skeleton
+      animation="wave"
+      variant="circular"
+      width={25}
+      height={25}
+      sx={{ float: 'left' }}
+    />
+    <Skeleton
+      animation="wave"
+      variant="circular"
+      width={25}
+      height={25}
+      sx={{ float: 'right' }}
+    />
+  </SkeletonWrapper>
+)
 
 const SearchWrapper = styled.section`
   width: 100%;
@@ -101,6 +128,12 @@ const BackButton2 = styled(BackButton)`
     transition: opacity 0.5s 0s;
     opacity: 0;
   }
+`
+
+const SkeletonWrapper = styled(CardWrap)`
+  display: block;
+  height: 93px;
+  margin-right: 0;
 `
 
 export default Search

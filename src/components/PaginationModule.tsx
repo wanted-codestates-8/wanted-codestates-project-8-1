@@ -1,11 +1,6 @@
 import { Pagination, PaginationItem } from '@mui/material'
 import React from 'react'
-
-interface IPagination {
-  totalPageCount: number
-  page: number
-  onChange: (e: React.ChangeEvent<unknown>, page: number) => void
-}
+import { IPagination } from 'types/interface'
 
 function PaginationModule({ totalPageCount, page, onChange }: IPagination) {
   return (
