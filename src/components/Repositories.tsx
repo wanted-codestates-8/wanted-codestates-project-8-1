@@ -3,13 +3,25 @@ import styled from 'styled-components'
 import Logo from '../assets/logo.svg'
 import AddButton from '../assets/addButton.svg'
 import { get } from 'api/get'
-import Card from './Card'
+import Card, { CardProps } from './Card'
 
 interface RepositoriesProps {
   setViewSide: Dispatch<SetStateAction<boolean>>
 }
 
 const Repositories = ({ setViewSide }: RepositoriesProps) => {
+  const storage: CardProps['data'][] = JSON.parse(
+    localStorage.getItem('favorite') || '[]'
+  )
+
+  const showCards = () => {
+    return storage?.map((data: any) => {
+      const starred =
+        storage.findIndex((item) => item.full_name === data.full_name) >= 0
+      return <Card starred={starred} key={data.full_name} data={data} />
+    })
+  }
+
   return (
     <RepositoryWrapper>
       <HeaderGit>Git</HeaderGit>
@@ -19,6 +31,8 @@ const Repositories = ({ setViewSide }: RepositoriesProps) => {
       </Svg>
 
       <SavedRepo>저장된 Repository</SavedRepo>
+
+      {showCards()}
 
       <AddBtn
         src={AddButton}

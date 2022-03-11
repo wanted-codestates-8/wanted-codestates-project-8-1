@@ -27,8 +27,8 @@ function App() {
         </Container>
         <SideContainer className={viewSide ? 'slide-in' : ''}>
           <button onClick={() => setViewSide(!viewSide)}>close </button>
-          {/* <Search /> */}
-          <Issues setViewSide={setViewSide} clickedRepo={clickedRepo} />
+          <Search />
+          {/* <Issues setViewSide={setViewSide} clickedRepo={clickedRepo} /> */}
         </SideContainer>
       </Main>
     </QueryClientProvider>
