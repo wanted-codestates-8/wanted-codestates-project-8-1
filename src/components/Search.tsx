@@ -70,9 +70,9 @@ function Search({ storageState, setStorageState, setClasses }: SearchProps) {
       </BackButton2>
       <SearchBar onSubmit={setSearchValue} />
       {isFetching
-        ? new Array(10).fill(0).map((i) => <SkeletonBox />)
+        ? new Array(10).fill(0).map((i, idx) => <SkeletonBox key={idx} />)
         : showCards()}
-      {data && (
+      {data && data.total_count > 0 && (
         <PaginationModule
           totalPageCount={
             data.total_count > 1000 ? 100 : Math.ceil(data.total_count / 10)
@@ -85,7 +85,7 @@ function Search({ storageState, setStorageState, setClasses }: SearchProps) {
   )
 }
 
-const SkeletonBox = () => (
+export const SkeletonBox = () => (
   <SkeletonWrapper>
     <Skeleton animation="wave" />
     <Skeleton animation="wave" height={18} />
