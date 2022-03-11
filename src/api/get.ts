@@ -12,10 +12,6 @@ interface Params {
   page: number
 }
 
-// const params = {...params};
-
-// params => params : params
-
 export async function get(url: string, params: Params) {
   const { data } = await customAxios.get(url, {
     params,

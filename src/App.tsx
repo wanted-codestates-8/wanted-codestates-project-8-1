@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Repositories from 'components/Repositories'
-import Search from 'components/Search'
+import Search, { IItems } from 'components/Search'
 import Issues from 'components/Issues'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { CardProps } from 'components/Card'
 
 function App() {
   const [viewSide, setViewSide] = useState(false)
-  const [storageState, setStorageState] = useState<CardProps['data'][]>([])
+  const [storageState, setStorageState] = useState<IItems[]>(
+    JSON.parse(localStorage.getItem('favorite') || '[]')
+  )
   const [clickedRepo, setClickedRepo] = useState<string>(
     'chltjdrhd777/my-record'
   )
@@ -22,7 +23,11 @@ function App() {
   })
 
   useEffect(() => {
-    localStorage.setItem('favorite', JSON.stringify(storageState))
+    if (storageState.length === 0) {
+      localStorage.removeItem('favorite')
+    } else {
+      localStorage.setItem('favorite', JSON.stringify(storageState))
+    }
   }, [storageState])
 
   return (
