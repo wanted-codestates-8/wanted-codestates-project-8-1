@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 import { CardProps, ICard } from 'types/interface'
 import { VscIssues } from 'react-icons/vsc'
-import { Box, Modal, Typography } from '@mui/material'
+import { Box, Modal } from '@mui/material'
 
 const modalStyle = {
   position: 'absolute',
