@@ -23,7 +23,6 @@ function SearchBar({ onSubmit, refetch, searchValue }: ISearchBar) {
     onSubmit(editingValue)
   }
 
-
   return (
     <Form onSubmit={handleSubmit}>
       <Input

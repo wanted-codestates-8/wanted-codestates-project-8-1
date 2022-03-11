@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
-import { BsRecordCircle } from 'react-icons/bs'
+import { VscIssues } from 'react-icons/vsc'
 
 export interface CardProps {
   data: {
@@ -9,40 +9,44 @@ export interface CardProps {
     avatar_url: string
     stargazers_count: number
     open_issues: number
-  },
+  }
   starred: boolean
 }
 
 export default function Card({ data, starred }: CardProps) {
-  const [clickedStar, SetClickedStar] = useState(starred);
+  const [clickedStar, SetClickedStar] = useState(starred)
 
   const handleStar = () => {
-    SetClickedStar(!clickedStar);
-    const container: CardProps['data'][] = JSON.parse(localStorage.getItem('favorite') || '[]');
-    const index = container.findIndex(item => (item.full_name === data.full_name));
-    
+    SetClickedStar(!clickedStar)
+    const container: CardProps['data'][] = JSON.parse(
+      localStorage.getItem('favorite') || '[]'
+    )
+    const index = container.findIndex(
+      (item) => item.full_name === data.full_name
+    )
+
     if (index >= 0) {
-      container.splice(index, 1);
+      container.splice(index, 1)
       if (container.length === 0) {
         localStorage.removeItem('favorite')
       } else {
-        localStorage.setItem('favorite', JSON.stringify(container));  
+        localStorage.setItem('favorite', JSON.stringify(container))
       }
     } else if (container.length < 4) {
       container.push({
-        full_name: data.full_name, 
-        avatar_url: data.avatar_url, 
-        open_issues: data.open_issues, 
-        stargazers_count: data.stargazers_count});
-      
-      localStorage.setItem('favorite', JSON.stringify(container));  
+        full_name: data.full_name,
+        avatar_url: data.avatar_url,
+        open_issues: data.open_issues,
+        stargazers_count: data.stargazers_count,
+      })
+
+      localStorage.setItem('favorite', JSON.stringify(container))
     } else {
-      alert("즐겨찾기는 최대 4개까지만 추가할 수 있습니다.");
-    }
-    
-    console.log(container, "container");
+      alert('즐겨찾기는 최대 4개까지만 추가할 수 있습니다.')
     }
 
+    console.log(container, 'container')
+  }
 
   return (
     <CardWrap>
@@ -56,23 +60,28 @@ export default function Card({ data, starred }: CardProps) {
         >
           <h3>{data.full_name}</h3>
           <span style={{ cursor: 'pointer' }}>
-            {
-              clickedStar ? 
-              <AiFillStar color={'6C84EE'} onClick={handleStar} /> 
-              : 
-              <AiOutlineStar onClick={handleStar} />
-            }
+            {clickedStar ? (
+              <AiFillStar size={20} color={'6C84EE'} onClick={handleStar} />
+            ) : (
+              <AiOutlineStar size={20} onClick={handleStar} />
+            )}
           </span>
         </div>
 
         <Dl>
           <Bottom>
             <dd>
-              <AiOutlineStar size={20} />
+              <AiOutlineStar
+                size={20}
+                style={{ margin: '4px 0 0 0', color: '#fdcb6e' }}
+              />
             </dd>
             <dt>{data.stargazers_count}</dt>
             <dd>
-              <BsRecordCircle size={20} />
+              <VscIssues
+                size={20}
+                style={{ margin: '4px 0 0 0', color: '#197F37' }}
+              ></VscIssues>
             </dd>
             <dt>{data.open_issues}</dt>
           </Bottom>
@@ -84,8 +93,8 @@ export default function Card({ data, starred }: CardProps) {
 }
 
 const CardWrap = styled.div`
-  width: 300px;
-  margin-bottom: 10px;
+  width: 100%;
+  margin-top: 1rem;
   display: flex;
   align-items: center;
   padding: 12px;

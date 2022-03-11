@@ -60,6 +60,7 @@ function Search({ setViewSide }: RepositoriesProps) {
     </SearchWrapper>
   )
 }
+
 // full_name,
 // owner.avatar_url,
 // stargazers_count,
