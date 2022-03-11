@@ -55,13 +55,6 @@ function Issues({ setViewSide, clickedRepo }: RepositoriesProps) {
     },
   })
 
-  console.log(data)
-
-interface RepositoriesProps {
-  setViewSide: Dispatch<SetStateAction<boolean>>
-}
-
-function Issues({ setViewSide }: RepositoriesProps) {
   return (
     <IssuesWrapper>
       <BackButton onClick={() => setViewSide((prev) => !prev)}>
