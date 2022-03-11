@@ -25,8 +25,8 @@ const ImageWrapper = styled.div`
 
 export default function PlusButton() {
   return (
-    <a>
+    <button>
       <ImageWrapper>+</ImageWrapper>
-    </a>
+    </button>
   )
 }
