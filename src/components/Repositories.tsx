@@ -82,6 +82,7 @@ const Repositories = ({
 const RepositoryWrapper = styled.section`
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
 `
 
 const HeaderGit = styled.span`

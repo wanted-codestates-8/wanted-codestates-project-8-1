@@ -85,7 +85,7 @@ const IssuesWrapper = styled.section`
   height: 100%;
   background-color: white;
   padding: 3.2rem;
-  box-sizing: border-box;
+  overflow-y: scroll;
 `
 export const BackButton = styled.div`
   width: 4rem;

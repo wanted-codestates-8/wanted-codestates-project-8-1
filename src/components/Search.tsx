@@ -118,6 +118,7 @@ const SearchWrapper = styled.section`
   height: 100%;
   padding: 3.2rem;
   background-color: white;
+  overflow-y: scroll;
 `
 
 const BackButton2 = styled(BackButton)`

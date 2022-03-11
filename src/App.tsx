@@ -85,7 +85,7 @@ const Main = styled.main`
   position: relative;
   width: 100vw;
   height: 100vh;
-  overflow-x: hidden;
+  overflow: hidden;
 `
 
 const Container = styled.div`
