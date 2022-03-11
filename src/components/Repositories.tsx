@@ -1,22 +1,24 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction, MouseEvent } from 'react'
 import styled from 'styled-components'
 import AddButton from '../assets/addButton.svg'
 import Card from './Card'
-import { IItems } from './Search'
+import { ClassesObject, ICard } from 'types/interface'
 
 interface RepositoriesProps {
-  setViewSide: Dispatch<SetStateAction<boolean>>
-  storageState: IItems[]
-  setStorageState: Dispatch<SetStateAction<IItems[]>>
+  setClasses: Dispatch<SetStateAction<ClassesObject>>
+  storageState: ICard[]
+  setStorageState: Dispatch<SetStateAction<ICard[]>>
+  setClickedRepo: Dispatch<SetStateAction<string>>
 }
 
 const Repositories = ({
-  setViewSide,
+  setClasses,
   storageState,
   setStorageState,
+  setClickedRepo,
 }: RepositoriesProps) => {
   const showCards = () => {
-    return storageState?.map((data: any) => {
+    return storageState?.map((data) => {
       const starred =
         storageState.findIndex((item) => item.full_name === data.full_name) >= 0
       return (
@@ -26,9 +28,41 @@ const Repositories = ({
           data={data}
           storageState={storageState}
           setStorageState={setStorageState}
+          onClick={() => handleCardClick(data.full_name)}
         />
       )
     })
+  }
+
+  const handleCardClick = (full_name: string) => {
+    setClickedRepo(full_name)
+    const width = window.innerWidth
+    if (width > 768) {
+      // desktop
+      setClasses((prev) => ({ ...prev, toShow: 'issues' }))
+    } else {
+      // mobile
+      setClasses((prev) => ({
+        ...prev,
+        toShow: 'issues',
+        sideContainer: 'slide-in',
+      }))
+    }
+  }
+
+  const handleAddClick = (e: MouseEvent<HTMLDivElement>) => {
+    const width = window.innerWidth
+    if (width > 768) {
+      // desktop
+      setClasses((prev) => ({ ...prev, toShow: 'search' }))
+    } else {
+      // mobile
+      setClasses((prev) => ({
+        ...prev,
+        toShow: 'search',
+        sideContainer: 'slide-in',
+      }))
+    }
   }
 
   return (
@@ -46,15 +80,10 @@ const Repositories = ({
       <AddBtn
         src={AddButton}
         alt="Move to search page"
-        onClick={() => setViewSide(true)}
+        onClick={handleAddClick}
       />
     </RepositoryWrapper>
   )
-}
-
-const color = {
-  primary: '#112155',
-  secondary: '#6C84EE',
 }
 
 const RepositoryWrapper = styled.section`
@@ -90,27 +119,6 @@ const SavedRepo = styled.div`
   @media (max-width: 768px) {
     display: grid;
     grid-template-columns: 1fr;
-  }
-`
-
-const Title = styled.img`
-  display: block;
-`
-
-const Subtitle = styled.h3`
-  margin: 16px 0;
-`
-
-const Dummy = styled.article`
-  width: 100%;
-  height: 140px;
-  margin: 16px 0;
-  border: 2px solid black;
-  border-radius: 24px;
-  transition: background-color 0.2s ease-out;
-
-  :hover {
-    background-color: ${color.secondary};
   }
 `
 

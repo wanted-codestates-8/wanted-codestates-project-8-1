@@ -1,18 +1,18 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { BsChevronLeft } from 'react-icons/bs'
 import { VscIssues } from 'react-icons/vsc'
-import { useQuery } from 'react-query'
+import { QueryFunctionContext, useQuery } from 'react-query'
 import { get } from 'api/get'
-import { Pagination, PaginationItem } from '@mui/material'
 import PaginationModule from './PaginationModule'
+import { ClassesObject } from 'types/interface'
 
-interface RepositoriesProps {
+interface IssuesProps {
   clickedRepo: string
-  setViewSide: Dispatch<SetStateAction<boolean>>
+  setClasses: Dispatch<SetStateAction<ClassesObject>>
 }
 
-export interface Items {
+interface IIssues {
   repositoryName: string
   issue: {
     title: string
@@ -23,17 +23,21 @@ export interface Items {
   }[]
 }
 
-function Issues({ setViewSide, clickedRepo }: RepositoriesProps) {
+function Issues({ clickedRepo, setClasses }: IssuesProps) {
   const [page, setPage] = useState(1)
   const [totalPageCount, setTotalPageCount] = useState<number>(0)
-  const [items, setItems] = useState<Items>({
+  const [items, setItems] = useState<IIssues>({
     repositoryName: '',
     issue: [],
   })
 
-  const fetcher = () => get('issues', { q: `repo:${clickedRepo}`, page })
+  const fetcher = (ctx: QueryFunctionContext) =>
+    get('issues', {
+      q: `repo:${ctx.queryKey[1]} is:issue`,
+      page,
+    })
 
-  const { data, refetch } = useQuery(['issues', page], fetcher, {
+  useQuery([page, clickedRepo], fetcher, {
     enabled: true,
     onSettled: (data, error) => {
       const totalCount =
@@ -42,10 +46,10 @@ function Issues({ setViewSide, clickedRepo }: RepositoriesProps) {
 
       const newItems = {
         repositoryName: clickedRepo,
-        issue: [] as any,
+        issue: [],
       }
 
-      newItems.issue = data.items.map((v: any) => ({
+      newItems.issue = data.items.map((v: IIssues['issue'][0]) => ({
         title: v.title,
         html_url: v.html_url,
         user: {
@@ -61,26 +65,43 @@ function Issues({ setViewSide, clickedRepo }: RepositoriesProps) {
     setPage(page)
   }
 
+  useEffect(() => {
+    return () => {
+      setItems({
+        repositoryName: '',
+        issue: [],
+      })
+    }
+  }, [])
+
   return (
     <IssuesWrapper>
-      <BackButton onClick={() => setViewSide((prev) => !prev)}>
+      <BackButton
+        onClick={() => setClasses((prev) => ({ ...prev, sideContainer: '' }))}
+      >
         <BsChevronLeft strokeWidth="2px"></BsChevronLeft>
       </BackButton>
       <RepoTitle>{items.repositoryName}</RepoTitle>
-      <Tag>
-        <VscIssues
-          size={24}
-          style={{ margin: '4px 4px 0 0', color: '#197F37' }}
-        ></VscIssues>
-        <div>open</div>
-      </Tag>
+      {items.issue.length !== 0 && (
+        <Tag>
+          <VscIssues
+            size="2.4rem"
+            style={{ margin: '4px 4px 0 0', color: '#197F37' }}
+          />
+          <div>open</div>
+        </Tag>
+      )}
       <IssueLists>
-        {items.issue.map((item: any, idx: any) => (
+        {items.issue.map((item, idx) => (
           <IssueList key={idx}>
             <VscIssues
-              size={24}
-              style={{ margin: '4px 4px 0 0', color: '#197F37' }}
-            ></VscIssues>
+              size="2.4rem"
+              style={{
+                margin: '4px 4px 0 0',
+                color: '#197F37',
+                flexShrink: 0,
+              }}
+            />
             <a href={item.html_url}>
               <div>
                 <IssueListTitle>{item.title}</IssueListTitle>
@@ -105,7 +126,7 @@ function Issues({ setViewSide, clickedRepo }: RepositoriesProps) {
 
 const IssuesWrapper = styled.section`
   width: 100%;
-  height: fit-content;
+  height: 100%;
   background-color: white;
   padding: 3.2rem;
   box-sizing: border-box;
@@ -119,6 +140,13 @@ export const BackButton = styled.div`
   justify-content: center;
   align-items: center;
   color: white;
+
+  transition: opacity 0s 0.5s;
+
+  @media (min-width: 768px) {
+    transition: opacity 0.5s 0s;
+    opacity: 0;
+  }
 `
 const RepoTitle = styled.h3`
   font-size: 24px;

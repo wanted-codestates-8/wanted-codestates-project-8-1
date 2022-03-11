@@ -1,18 +1,24 @@
-import React, { useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Repositories from 'components/Repositories'
-import Search, { IItems } from 'components/Search'
+import Search from 'components/Search'
 import Issues from 'components/Issues'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { ClassesObject, ICard } from 'types/interface'
 
 function App() {
-  const [viewSide, setViewSide] = useState(false)
-  const [storageState, setStorageState] = useState<IItems[]>(
+  const [classes, setClasses] = useState<ClassesObject>({
+    sideContainer: '',
+    toShow: 'search',
+    desktop: window.innerWidth >= 768 ? 'desktop' : '',
+  })
+  const [storageState, setStorageState] = useState<ICard[]>(
     JSON.parse(localStorage.getItem('favorite') || '[]')
   )
-  const [clickedRepo, setClickedRepo] = useState<string>(
-    'chltjdrhd777/my-record'
-  )
+  const [clickedRepo, setClickedRepo] = useState<string>('')
+
+  const throttled = useRef(false)
+
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -30,23 +36,45 @@ function App() {
     }
   }, [storageState])
 
+  window.onresize = () => {
+    if (!throttled.current) {
+      if (window.innerWidth >= 768) {
+        setClasses({ ...classes, desktop: 'desktop', sideContainer: '' })
+      } else {
+        setClasses({ ...classes, desktop: '' })
+      }
+
+      throttled.current = true
+      setTimeout(() => {
+        throttled.current = false
+      }, 100)
+    }
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <Main>
-        <Container>
+        <Container className={classes.desktop}>
           <Repositories
-            setViewSide={setViewSide}
+            setClasses={setClasses}
             storageState={storageState}
             setStorageState={setStorageState}
+            setClickedRepo={setClickedRepo}
           />
         </Container>
-        <SideContainer className={viewSide ? 'slide-in' : ''}>
-          <Search
-            setViewSide={setViewSide}
-            storageState={storageState}
-            setStorageState={setStorageState}
-          />
-          {/* <Issues setViewSide={setViewSide} clickedRepo={clickedRepo} /> */}
+        <SideContainer
+          className={`${classes.sideContainer} ${classes.desktop}`}
+        >
+          {classes.toShow === 'search' && (
+            <Search
+              storageState={storageState}
+              setStorageState={setStorageState}
+              setClasses={setClasses}
+            />
+          )}
+          {classes.toShow === 'issues' && (
+            <Issues clickedRepo={clickedRepo} setClasses={setClasses} />
+          )}
         </SideContainer>
       </Main>
     </QueryClientProvider>
@@ -66,7 +94,7 @@ const Container = styled.div`
   padding: 3.2rem;
   transition: width 0.5s ease-out;
 
-  @media (min-width: 768px) {
+  &.desktop {
     width: 50%;
   }
 `
@@ -77,14 +105,14 @@ const SideContainer = styled.div`
   height: 100%;
   top: 0;
   left: 100%;
-  /* background-color: midnightblue; */
-  transition: left 0.5s ease-out;
+  transition: width 0.5s ease-out, left 0.5s ease-out;
 
   &.slide-in {
     left: 0;
   }
 
-  @media (min-width: 768px) {
+  &.desktop {
+    width: 50%;
     left: 50%;
     width: 50%;
   }

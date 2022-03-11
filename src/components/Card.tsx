@@ -1,14 +1,15 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction, MouseEvent } from 'react'
 import styled from 'styled-components'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
-import { IItems } from './Search'
+import { ICard } from 'types/interface'
 import { VscIssues } from 'react-icons/vsc'
 
-export interface CardProps {
-  data: IItems
+interface CardProps {
+  data: ICard
   starred: boolean
-  storageState: IItems[]
-  setStorageState: Dispatch<SetStateAction<IItems[]>>
+  storageState: ICard[]
+  setStorageState: Dispatch<SetStateAction<ICard[]>>
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void
 }
 
 export default function Card({
@@ -16,8 +17,10 @@ export default function Card({
   starred,
   storageState,
   setStorageState,
+  onClick,
 }: CardProps) {
-  const handleStar = () => {
+  const handleStar = (e: MouseEvent<HTMLOrSVGElement>) => {
+    e.stopPropagation()
     const index = storageState.findIndex(
       (item) => item.full_name === data.full_name
     )
@@ -43,7 +46,7 @@ export default function Card({
     }
   }
   return (
-    <CardWrap>
+    <CardWrap onClick={onClick}>
       <CardItem>
         <div
           style={{

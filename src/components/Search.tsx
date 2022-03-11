@@ -3,39 +3,28 @@ import { BsChevronLeft } from 'react-icons/bs'
 import styled from 'styled-components'
 import { BackButton } from './Issues'
 import SearchBar from './SearchBar'
-import { useQuery } from 'react-query'
+import { QueryFunctionContext, useQuery } from 'react-query'
 import { get } from 'api/get'
-import Card, { CardProps } from './Card'
-import { Pagination, PaginationItem } from '@mui/material'
+import Card from './Card'
 import PaginationModule from './PaginationModule'
+import { ClassesObject, ICard } from 'types/interface'
 
-export interface IItems {
-  full_name: string
-  avatar_url: string
-  stargazers_count: number
-  open_issues: number
+interface SearchProps {
+  storageState: ICard[]
+  setStorageState: Dispatch<SetStateAction<ICard[]>>
+  setClasses: Dispatch<SetStateAction<ClassesObject>>
 }
 
-interface RepositoriesProps {
-  setViewSide: Dispatch<SetStateAction<boolean>>
-  storageState: IItems[]
-  setStorageState: Dispatch<SetStateAction<IItems[]>>
-}
-
-function Search({
-  setViewSide,
-  storageState,
-  setStorageState,
-}: RepositoriesProps) {
+function Search({ storageState, setStorageState, setClasses }: SearchProps) {
   const [searchValue, setSearchValue] = useState<string>('')
   const [page, setPage] = useState(1)
-  const [items, setItems] = useState<IItems[]>([])
+  const [items, setItems] = useState<ICard[]>([])
   const [totalPageCount, setTotalPageCount] = useState(0)
 
-  const fetcher = () =>
-    get('repositories', { q: `${searchValue} in:name`, page })
+  const fetcher = (ctx: QueryFunctionContext) =>
+    get('repositories', { q: `${ctx.queryKey[1]} in:name`, page })
 
-  const { data, refetch } = useQuery(['repositories', page], fetcher, {
+  const { refetch } = useQuery([page, searchValue], fetcher, {
     enabled: false,
     onSettled: ({ total_count, items }, error) => {
       setTotalPageCount(total_count > 1000 ? 100 : Math.ceil(total_count / 10))
@@ -56,13 +45,19 @@ function Search({
   }
 
   useEffect(() => {
+    return () => {
+      setItems([])
+    }
+  }, [])
+
+  useEffect(() => {
     if (searchValue.trim() !== '') {
       refetch()
     }
   }, [searchValue, page, refetch])
 
   const showCards = () => {
-    return items?.map((data: any) => {
+    return items?.map((data) => {
       const starred =
         storageState.findIndex((item) => item.full_name === data.full_name) >= 0
       return (
@@ -79,7 +74,9 @@ function Search({
 
   return (
     <SearchWrapper>
-      <BackButton2 onClick={() => setViewSide((prev) => !prev)}>
+      <BackButton2
+        onClick={() => setClasses((prev) => ({ ...prev, sideContainer: '' }))}
+      >
         <BsChevronLeft strokeWidth="2px"></BsChevronLeft>
       </BackButton2>
       <SearchBar onSubmit={setSearchValue} />
@@ -97,13 +94,19 @@ function Search({
 
 const SearchWrapper = styled.section`
   width: 100%;
-  height: fit-content;
+  height: 100%;
   padding: 3.2rem;
   background-color: white;
 `
 
 const BackButton2 = styled(BackButton)`
   margin-bottom: 2rem;
+  transition: opacity 0s 0.5s;
+
+  @media (min-width: 768px) {
+    transition: opacity 0.5s 0s;
+    opacity: 0;
+  }
 `
 
 export default Search
