@@ -1,15 +1,8 @@
-import React, { Dispatch, SetStateAction, MouseEvent } from 'react'
+import React, { MouseEvent } from 'react'
 import styled from 'styled-components'
 import AddButton from '../assets/addButton.svg'
 import Card from './Card'
-import { ClassesObject, ICard } from 'types/interface'
-
-interface RepositoriesProps {
-  setClasses: Dispatch<SetStateAction<ClassesObject>>
-  storageState: ICard[]
-  setStorageState: Dispatch<SetStateAction<ICard[]>>
-  setClickedRepo: Dispatch<SetStateAction<string>>
-}
+import { ClassesObject, RepositoriesProps } from 'types/interface'
 
 const Repositories = ({
   setClasses,
@@ -25,7 +18,7 @@ const Repositories = ({
         <Card
           starred={starred}
           key={data.full_name}
-          data={data}
+          card={data}
           storageState={storageState}
           setStorageState={setStorageState}
           onClick={() => handleCardClick(data.full_name)}
@@ -39,10 +32,10 @@ const Repositories = ({
     const width = window.innerWidth
     if (width > 768) {
       // desktop
-      setClasses((prev) => ({ ...prev, toShow: 'issues' }))
+      setClasses((prev: ClassesObject) => ({ ...prev, toShow: 'issues' }))
     } else {
       // mobile
-      setClasses((prev) => ({
+      setClasses((prev: ClassesObject) => ({
         ...prev,
         toShow: 'issues',
         sideContainer: 'slide-in',
@@ -54,10 +47,10 @@ const Repositories = ({
     const width = window.innerWidth
     if (width > 768) {
       // desktop
-      setClasses((prev) => ({ ...prev, toShow: 'search' }))
+      setClasses((prev: ClassesObject) => ({ ...prev, toShow: 'search' }))
     } else {
       // mobile
-      setClasses((prev) => ({
+      setClasses((prev: ClassesObject) => ({
         ...prev,
         toShow: 'search',
         sideContainer: 'slide-in',

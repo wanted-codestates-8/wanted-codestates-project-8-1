@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { HiSearch } from 'react-icons/hi'
-
-interface ISearchBar {
-  onSubmit: (value: string) => void
-}
+import { ISearchBar } from 'types/interface'
 
 function SearchBar({ onSubmit }: ISearchBar) {
   const [editingValue, setEditingValue] = useState<string>('')

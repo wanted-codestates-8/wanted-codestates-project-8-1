@@ -1,28 +1,36 @@
-import React, { Dispatch, SetStateAction, MouseEvent } from 'react'
+import React, { MouseEvent, useState } from 'react'
 import styled from 'styled-components'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
-import { ICard } from 'types/interface'
+import { CardProps, ICard } from 'types/interface'
 import { VscIssues } from 'react-icons/vsc'
+import { Box, Modal } from '@mui/material'
 
-interface CardProps {
-  data: ICard
-  starred: boolean
-  storageState: ICard[]
-  setStorageState: Dispatch<SetStateAction<ICard[]>>
-  onClick?: (e: MouseEvent<HTMLDivElement>) => void
+const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 'fit-content',
+  bgcolor: 'background.paper',
+  border: 'none',
+  boxShadow: 24,
+  borderRadius: 5,
+  p: 4,
 }
 
 export default function Card({
-  data,
+  card,
   starred,
   storageState,
   setStorageState,
   onClick,
 }: CardProps) {
+  const [modal, setModal] = useState(false)
+
   const handleStar = (e: MouseEvent<HTMLOrSVGElement>) => {
     e.stopPropagation()
     const index = storageState.findIndex(
-      (item) => item.full_name === data.full_name
+      (item) => item.full_name === card.full_name
     )
     if (index >= 0) {
       storageState.splice(index, 1)
@@ -32,64 +40,76 @@ export default function Card({
         setStorageState([...storageState])
       }
     } else if (storageState.length < 4) {
-      setStorageState((prev) => [
+      setStorageState((prev: ICard[]) => [
         ...prev,
         {
-          full_name: data.full_name,
-          avatar_url: data.avatar_url,
-          open_issues: data.open_issues,
-          stargazers_count: data.stargazers_count,
+          full_name: card.full_name,
+          avatar_url: card.avatar_url,
+          open_issues: card.open_issues,
+          stargazers_count: card.stargazers_count,
         },
       ])
     } else {
-      alert('즐겨찾기는 최대 4개까지만 추가할 수 있습니다.')
+      setModal(true)
     }
   }
   return (
-    <CardWrap onClick={onClick}>
-      <CardItem>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <h3>{data.full_name}</h3>
-          <span style={{ cursor: 'pointer' }}>
-            {starred ? (
-              <AiFillStar size={20} color={'6C84EE'} onClick={handleStar} />
-            ) : (
-              <AiOutlineStar size={20} onClick={handleStar} />
-            )}
-          </span>
-        </div>
+    <>
+      <CardWrap onClick={onClick}>
+        <CardItem>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <h3>{card.full_name}</h3>
+            <span style={{ cursor: 'pointer' }}>
+              {starred ? (
+                <AiFillStar size={20} color={'6C84EE'} onClick={handleStar} />
+              ) : (
+                <AiOutlineStar size={20} onClick={handleStar} />
+              )}
+            </span>
+          </div>
 
-        <Dl>
-          <Bottom>
-            <dd>
-              <AiOutlineStar
-                size={20}
-                style={{ margin: '4px 0 0 0', color: '#fdcb6e' }}
-              />
-            </dd>
-            <dt>{data.stargazers_count}</dt>
-            <dd>
-              <VscIssues
-                size={20}
-                style={{ margin: '4px 0 0 0', color: '#197F37' }}
-              ></VscIssues>
-            </dd>
-            <dt>{data.open_issues}</dt>
-          </Bottom>
-          <ImgBox src={data.avatar_url} />
-        </Dl>
-      </CardItem>
-    </CardWrap>
+          <Dl>
+            <Bottom>
+              <dd>
+                <AiOutlineStar
+                  size={20}
+                  style={{ margin: '4px 0 0 0', color: '#fdcb6e' }}
+                />
+              </dd>
+              <dt>{card.stargazers_count}</dt>
+              <dd>
+                <VscIssues
+                  size={20}
+                  style={{ margin: '4px 0 0 0', color: '#197F37' }}
+                ></VscIssues>
+              </dd>
+              <dt>{card.open_issues}</dt>
+            </Bottom>
+            <ImgBox src={card.avatar_url} />
+          </Dl>
+        </CardItem>
+      </CardWrap>
+      <Modal
+        open={modal}
+        onClose={() => setModal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={modalStyle}>
+          <h4>즐겨찾기는 최대 4개까지만 추가할 수 있습니다.</h4>
+        </Box>
+      </Modal>
+    </>
   )
 }
 
-const CardWrap = styled.div`
+export const CardWrap = styled.div`
   width: 100%;
   margin-top: 1rem;
   display: flex;
