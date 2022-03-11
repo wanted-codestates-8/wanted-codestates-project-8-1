@@ -18,16 +18,19 @@ export interface IItems {
 
 interface RepositoriesProps {
   setViewSide: Dispatch<SetStateAction<boolean>>
+  storageState: IItems[]
+  setStorageState: Dispatch<SetStateAction<IItems[]>>
 }
 
-function Search({ setViewSide }: RepositoriesProps) {
+function Search({
+  setViewSide,
+  storageState,
+  setStorageState,
+}: RepositoriesProps) {
   const [searchValue, setSearchValue] = useState<string>('')
   const [page, setPage] = useState(1)
   const [items, setItems] = useState<IItems[]>([])
   const [totalPageCount, setTotalPageCount] = useState(0)
-  const storage: CardProps['data'][] = JSON.parse(
-    localStorage.getItem('favorite') || '[]'
-  )
 
   const fetcher = () =>
     get('repositories', { q: `${searchValue} in:name`, page })
@@ -61,8 +64,16 @@ function Search({ setViewSide }: RepositoriesProps) {
   const showCards = () => {
     return items?.map((data: any) => {
       const starred =
-        storage.findIndex((item) => item.full_name === data.full_name) >= 0
-      return <Card starred={starred} key={data.full_name} data={data} />
+        storageState.findIndex((item) => item.full_name === data.full_name) >= 0
+      return (
+        <Card
+          starred={starred}
+          key={data.full_name}
+          data={data}
+          storageState={storageState}
+          setStorageState={setStorageState}
+        />
+      )
     })
   }
 

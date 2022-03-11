@@ -1,13 +1,36 @@
-import React, { useState, Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import styled from 'styled-components'
 import AddButton from '../assets/addButton.svg'
 import Card from './Card'
+import { IItems } from './Search'
 
 interface RepositoriesProps {
   setViewSide: Dispatch<SetStateAction<boolean>>
+  storageState: IItems[]
+  setStorageState: Dispatch<SetStateAction<IItems[]>>
 }
 
-const Repositories = ({ setViewSide }: RepositoriesProps) => {
+const Repositories = ({
+  setViewSide,
+  storageState,
+  setStorageState,
+}: RepositoriesProps) => {
+  const showCards = () => {
+    return storageState?.map((data: any) => {
+      const starred =
+        storageState.findIndex((item) => item.full_name === data.full_name) >= 0
+      return (
+        <Card
+          starred={starred}
+          key={data.full_name}
+          data={data}
+          storageState={storageState}
+          setStorageState={setStorageState}
+        />
+      )
+    })
+  }
+
   return (
     <RepositoryWrapper>
       <HeaderGit>Git</HeaderGit>
@@ -17,6 +40,8 @@ const Repositories = ({ setViewSide }: RepositoriesProps) => {
       </Svg>
 
       <SavedRepo>저장된 Repository</SavedRepo>
+
+      {showCards()}
 
       <AddBtn
         src={AddButton}

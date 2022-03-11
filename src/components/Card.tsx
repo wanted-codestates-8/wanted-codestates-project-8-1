@@ -1,50 +1,47 @@
-import React, { useState } from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import styled from 'styled-components'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
-import { BsRecordCircle } from 'react-icons/bs'
 import { IItems } from './Search'
 import { VscIssues } from 'react-icons/vsc'
 
 export interface CardProps {
   data: IItems
   starred: boolean
+  storageState: IItems[]
+  setStorageState: Dispatch<SetStateAction<IItems[]>>
 }
 
-export default function Card({ data, starred }: CardProps) {
-  const [clickedStar, SetClickedStar] = useState(starred)
-
+export default function Card({
+  data,
+  starred,
+  storageState,
+  setStorageState,
+}: CardProps) {
   const handleStar = () => {
-    SetClickedStar(!clickedStar)
-    const container: CardProps['data'][] = JSON.parse(
-      localStorage.getItem('favorite') || '[]'
-    )
-    const index = container.findIndex(
+    const index = storageState.findIndex(
       (item) => item.full_name === data.full_name
     )
-
     if (index >= 0) {
-      container.splice(index, 1)
-      if (container.length === 0) {
-        localStorage.removeItem('favorite')
+      storageState.splice(index, 1)
+      if (storageState.length === 0) {
+        setStorageState([])
       } else {
-        localStorage.setItem('favorite', JSON.stringify(container))
+        setStorageState([...storageState])
       }
-    } else if (container.length < 4) {
-      container.push({
-        full_name: data.full_name,
-        avatar_url: data.avatar_url,
-        open_issues: data.open_issues,
-        stargazers_count: data.stargazers_count,
-      })
-
-      localStorage.setItem('favorite', JSON.stringify(container))
+    } else if (storageState.length < 4) {
+      setStorageState((prev) => [
+        ...prev,
+        {
+          full_name: data.full_name,
+          avatar_url: data.avatar_url,
+          open_issues: data.open_issues,
+          stargazers_count: data.stargazers_count,
+        },
+      ])
     } else {
       alert('즐겨찾기는 최대 4개까지만 추가할 수 있습니다.')
     }
-
-    console.log(container, 'container')
   }
-
   return (
     <CardWrap>
       <CardItem>
@@ -57,7 +54,7 @@ export default function Card({ data, starred }: CardProps) {
         >
           <h3>{data.full_name}</h3>
           <span style={{ cursor: 'pointer' }}>
-            {clickedStar ? (
+            {starred ? (
               <AiFillStar size={20} color={'6C84EE'} onClick={handleStar} />
             ) : (
               <AiOutlineStar size={20} onClick={handleStar} />
@@ -96,7 +93,6 @@ const CardWrap = styled.div`
   align-items: center;
   padding: 12px;
   border-radius: 14px;
-  // border: 1px solid black;
   box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
 `
 const CardItem = styled.div`
