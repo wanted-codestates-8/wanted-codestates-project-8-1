@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from 'react'
+import React, { useState, Dispatch, SetStateAction } from 'react'
 import { BsChevronLeft } from 'react-icons/bs'
 import styled from 'styled-components'
 import { BackButton } from './Issues'
@@ -18,53 +18,45 @@ interface SearchProps {
 function Search({ storageState, setStorageState, setClasses }: SearchProps) {
   const [searchValue, setSearchValue] = useState<string>('')
   const [page, setPage] = useState(1)
-  const [items, setItems] = useState<ICard[]>([])
-  const [totalPageCount, setTotalPageCount] = useState(0)
 
-  const fetcher = (ctx: QueryFunctionContext) =>
-    get('repositories', { q: `${ctx.queryKey[1]} in:name`, page })
+  const fetcher = (ctx: QueryFunctionContext) => {
+    if (ctx.queryKey[1] === '') {
+      return { items: [], total_count: 0 }
+    }
 
-  const { refetch } = useQuery([page, searchValue], fetcher, {
-    enabled: false,
-    onSettled: ({ total_count, items }, error) => {
-      setTotalPageCount(total_count > 1000 ? 100 : Math.ceil(total_count / 10))
+    return get('repositories', { q: `${ctx.queryKey[1]} in:name`, page })
+  }
 
-      const newItems = items.map((v: any) => ({
-        full_name: v.full_name,
-        avatar_url: v.owner.avatar_url,
-        stargazers_count: v.stargazers_count,
-        open_issues: v.open_issues,
-      }))
-
-      setItems(newItems)
-    },
+  const { data } = useQuery([page, searchValue], fetcher, {
+    staleTime: 60 * 1000,
+    keepPreviousData: true,
   })
 
   const onPageChange = (e: React.ChangeEvent<unknown>, page: number) => {
     setPage(page)
   }
 
-  useEffect(() => {
-    return () => {
-      setItems([])
-    }
-  }, [])
-
-  useEffect(() => {
-    if (searchValue.trim() !== '') {
-      refetch()
-    }
-  }, [searchValue, page, refetch])
-
   const showCards = () => {
-    return items?.map((data) => {
+    if (!data) {
+      return null
+    }
+
+    return data.items.map((d: any) => {
       const starred =
-        storageState.findIndex((item) => item.full_name === data.full_name) >= 0
+        storageState.findIndex((item) => item.full_name === d.full_name) >= 0
+
+      const newItems = {
+        full_name: d.full_name,
+        avatar_url: d.owner.avatar_url,
+        stargazers_count: d.stargazers_count,
+        open_issues: d.open_issues,
+      }
+
       return (
         <Card
           starred={starred}
           key={data.full_name}
-          data={data}
+          data={newItems}
           storageState={storageState}
           setStorageState={setStorageState}
         />
@@ -80,10 +72,12 @@ function Search({ storageState, setStorageState, setClasses }: SearchProps) {
         <BsChevronLeft strokeWidth="2px"></BsChevronLeft>
       </BackButton2>
       <SearchBar onSubmit={setSearchValue} />
-      {items.length > 0 && showCards()}
-      {totalPageCount > 0 && (
+      {data && showCards()}
+      {data && (
         <PaginationModule
-          totalPageCount={totalPageCount}
+          totalPageCount={
+            data.total_count > 1000 ? 100 : Math.ceil(data.total_count / 10)
+          }
           page={page}
           onChange={onPageChange}
         />
