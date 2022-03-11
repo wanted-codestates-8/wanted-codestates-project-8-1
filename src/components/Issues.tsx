@@ -64,7 +64,7 @@ function Issues({ setViewSide, clickedRepo }: RepositoriesProps) {
       <Tag>
         <VscIssues
           size={24}
-          style={{ margin: '4px 4px 0 0', color: 'white' }}
+          style={{ margin: '4px 4px 0 0', color: '#197F37' }}
         ></VscIssues>
         <div>open</div>
       </Tag>
@@ -144,7 +144,7 @@ const Tag = styled.div`
   width: 80px;
   padding: 0 0 2px 0;
   margin-top: 20px;
-  background-color: #6c84ee;
-  color: white;
+  color: #197f37;
+  border: solid 1px #197f37;
 `
 export default Issues

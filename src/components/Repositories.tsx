@@ -95,7 +95,7 @@ const AddBtn = styled.img`
   display: block;
   width: 6rem;
   height: 6rem;
-  margin: 0 auto;
+  margin: 2rem auto;
 `
 
 export default Repositories

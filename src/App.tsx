@@ -26,8 +26,7 @@ function App() {
           <Repositories setViewSide={setViewSide} />
         </Container>
         <SideContainer className={viewSide ? 'slide-in' : ''}>
-          <button onClick={() => setViewSide(!viewSide)}>close </button>
-          {/* <Search /> */}
+          <Search setViewSide={setViewSide} />
           <Issues setViewSide={setViewSide} clickedRepo={clickedRepo} />
         </SideContainer>
       </Main>

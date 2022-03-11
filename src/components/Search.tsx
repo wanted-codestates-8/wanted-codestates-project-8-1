@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react'
 import { BsChevronLeft } from 'react-icons/bs'
 import styled from 'styled-components'
 import { BackButton } from './Issues'
@@ -7,10 +7,16 @@ import { useQuery, useQueryClient, useMutation } from 'react-query'
 import { get } from 'api/get'
 import Card, { CardProps } from './Card'
 
-function Search() {
+interface RepositoriesProps {
+  setViewSide: Dispatch<SetStateAction<boolean>>
+}
+
+function Search({ setViewSide }: RepositoriesProps) {
   const [searchValue, setSearchValue] = useState<string>('')
   const [page, setPage] = useState(1)
-  const storage: CardProps['data'][] = JSON.parse(localStorage.getItem('favorite') || '[]');
+  const storage: CardProps['data'][] = JSON.parse(
+    localStorage.getItem('favorite') || '[]'
+  )
 
   const fetcher = () =>
     get('repositories', { q: `${searchValue} in:name`, page })
@@ -34,14 +40,15 @@ function Search() {
 
   const showCards = () => {
     return data?.map((data: any) => {
-    const starred = storage.findIndex(item => (item.full_name === data.full_name)) >= 0;
+      const starred =
+        storage.findIndex((item) => item.full_name === data.full_name) >= 0
       return <Card starred={starred} key={data.full_name} data={data} />
-  }) 
+    })
   }
 
   return (
     <SearchWrapper>
-      <BackButton2>
+      <BackButton2 onClick={() => setViewSide((prev) => !prev)}>
         <BsChevronLeft strokeWidth="2px"></BsChevronLeft>
       </BackButton2>
       <SearchBar
@@ -53,6 +60,7 @@ function Search() {
     </SearchWrapper>
   )
 }
+
 // full_name,
 // owner.avatar_url,
 // stargazers_count,
@@ -61,7 +69,7 @@ function Search() {
 const SearchWrapper = styled.section`
   width: 100%;
   height: 100%;
-  padding: 2rem;
+  padding: 3.2rem;
   background-color: white;
 `
 
