@@ -7,7 +7,7 @@ import { QueryFunctionContext, useQuery } from 'react-query'
 import { get } from 'api/get'
 import Card, { CardWrap } from './Card'
 import PaginationModule from './PaginationModule'
-import { ClassesObject, IRepo, SearchProps } from 'types/interface'
+import { ClassesObject, INoItem, IRepo, SearchProps } from 'types/interface'
 import { Skeleton } from '@mui/material'
 
 function Search({ storageState, setStorageState, setClasses }: SearchProps) {
@@ -16,7 +16,7 @@ function Search({ storageState, setStorageState, setClasses }: SearchProps) {
 
   const fetcher = (ctx: QueryFunctionContext) => {
     if (ctx.queryKey[1] === '') {
-      return { items: [], total_count: 0 }
+      return { items: [], total_count: -1 }
     }
 
     return get('repositories', { q: `${ctx.queryKey[1]} in:name`, page })
@@ -32,8 +32,11 @@ function Search({ storageState, setStorageState, setClasses }: SearchProps) {
   }
 
   const showCards = () => {
+    console.log(data)
     if (!data) {
       return null
+    } else if (data.total_count === 0) {
+      return <NoItem />
     }
 
     return data.items.map((d: IRepo, index: number) => {
@@ -113,6 +116,12 @@ export const SkeletonBox = () => (
   </SkeletonWrapper>
 )
 
+export const NoItem = ({ content }: INoItem) => (
+  <NoItemWrapper>
+    <span>{content || '검색 결과가 없습니다.'}</span>
+  </NoItemWrapper>
+)
+
 const SearchWrapper = styled.section`
   width: 100%;
   height: 100%;
@@ -135,6 +144,12 @@ const SkeletonWrapper = styled(CardWrap)`
   display: block;
   height: 93px;
   margin-right: 0;
+`
+
+export const NoItemWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 100px 0;
 `
 
 export default Search

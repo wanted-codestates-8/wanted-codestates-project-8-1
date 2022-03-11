@@ -6,7 +6,7 @@ import { QueryFunctionContext, useQuery } from 'react-query'
 import { get } from 'api/get'
 import PaginationModule from './PaginationModule'
 import { ClassesObject, IIssue, IssuesProps } from 'types/interface'
-import { SkeletonBox } from './Search'
+import { NoItem, NoItemWrapper, SkeletonBox } from './Search'
 
 function Issues({ clickedRepo, setClasses }: IssuesProps) {
   const [page, setPage] = useState(1)
@@ -46,28 +46,32 @@ function Issues({ clickedRepo, setClasses }: IssuesProps) {
         </Tag>
       )}
       <IssueLists>
-        {isFetching
-          ? new Array(10).fill(0).map((i, idx) => <SkeletonBox key={idx} />)
-          : data?.items.map((item, idx) => (
-              <IssueList key={idx}>
-                <VscIssues
-                  size="2.4rem"
-                  style={{
-                    margin: '4px 4px 0 0',
-                    color: '#197F37',
-                    flexShrink: 0,
-                  }}
-                />
-                <a href={item.html_url}>
-                  <div>
-                    <IssueListTitle>{item.title}</IssueListTitle>
-                    <IssueListSubTitle>
-                      created by {item.user.login}
-                    </IssueListSubTitle>
-                  </div>
-                </a>
-              </IssueList>
-            ))}
+        {isFetching ? (
+          new Array(10).fill(0).map((i, idx) => <SkeletonBox key={idx} />)
+        ) : data && data.items.length > 0 ? (
+          data?.items.map((item, idx) => (
+            <IssueList key={idx}>
+              <VscIssues
+                size="2.4rem"
+                style={{
+                  margin: '4px 4px 0 0',
+                  color: '#197F37',
+                  flexShrink: 0,
+                }}
+              />
+              <a href={item.html_url}>
+                <div>
+                  <IssueListTitle>{item.title}</IssueListTitle>
+                  <IssueListSubTitle>
+                    created by {item.user.login}
+                  </IssueListSubTitle>
+                </div>
+              </a>
+            </IssueList>
+          ))
+        ) : (
+          <NoItem content={'이슈가 없습니다.'} />
+        )}
       </IssueLists>
       {data && data.total_count > 0 && (
         <PaginationModule
