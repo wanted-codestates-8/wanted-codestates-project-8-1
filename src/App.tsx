@@ -68,6 +68,7 @@ const SideContainer = styled.div`
 
   @media (min-width: 768px) {
     left: 50%;
+    width: 50%;
   }
 `
 

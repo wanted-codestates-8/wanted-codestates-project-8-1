@@ -1,18 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 import { BsRecordCircle } from 'react-icons/bs'
 
-interface CardProps {
+export interface CardProps {
   data: {
     full_name: string
     avatar_url: string
     stargazers_count: number
     open_issues: number
-  }
+  },
+  starred: boolean
 }
 
-export default function Card({ data }: CardProps) {
+export default function Card({ data, starred }: CardProps) {
+  const [clickedStar, SetClickedStar] = useState(starred);
+
+  const handleStar = () => {
+    SetClickedStar(!clickedStar);
+    const container: CardProps['data'][] = JSON.parse(localStorage.getItem('favorite') || '[]');
+    const index = container.findIndex(item => (item.full_name === data.full_name));
+    
+    if (index >= 0) {
+      container.splice(index, 1);
+      if (container.length === 0) {
+        localStorage.removeItem('favorite')
+      } else {
+        localStorage.setItem('favorite', JSON.stringify(container));  
+      }
+    } else if (container.length < 4) {
+      container.push({
+        full_name: data.full_name, 
+        avatar_url: data.avatar_url, 
+        open_issues: data.open_issues, 
+        stargazers_count: data.stargazers_count});
+      
+      localStorage.setItem('favorite', JSON.stringify(container));  
+    } else {
+      alert("즐겨찾기는 최대 4개까지만 추가할 수 있습니다.");
+    }
+    
+    console.log(container, "container");
+    }
+
+
   return (
     <CardWrap>
       <CardItem>
@@ -25,10 +56,15 @@ export default function Card({ data }: CardProps) {
         >
           <h3>{data.full_name}</h3>
           <span style={{ cursor: 'pointer' }}>
-            <AiFillStar color={'6C84EE'} />
+            {
+              clickedStar ? 
+              <AiFillStar color={'6C84EE'} onClick={handleStar} /> 
+              : 
+              <AiOutlineStar onClick={handleStar} />
+            }
           </span>
         </div>
-        <h5>{data.avatar_url}</h5>
+
         <Dl>
           <Bottom>
             <dd>
@@ -40,7 +76,7 @@ export default function Card({ data }: CardProps) {
             </dd>
             <dt>{data.open_issues}</dt>
           </Bottom>
-          <ImgBox></ImgBox>
+          <ImgBox src={data.avatar_url} />
         </Dl>
       </CardItem>
     </CardWrap>
@@ -48,14 +84,14 @@ export default function Card({ data }: CardProps) {
 }
 
 const CardWrap = styled.div`
-  width: 100%;
+  width: 300px;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
   padding: 12px;
   border-radius: 14px;
-  border: 1px solid black;
-  /* box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5); */
+  // border: 1px solid black;
+  box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
 `
 const CardItem = styled.div`
   width: 100%;
@@ -92,7 +128,7 @@ const Bottom = styled.div`
   display: flex;
 `
 
-const ImgBox = styled.div`
+const ImgBox = styled.img`
   width: 30px;
   height: 30px;
   background-color: #6c84ee;

@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { BsChevronLeft } from 'react-icons/bs'
 import styled from 'styled-components'
 import { BackButton } from './Issues'
 import SearchBar from './SearchBar'
 import { useQuery, useQueryClient, useMutation } from 'react-query'
 import { get } from 'api/get'
-import Card from './Card'
+import Card, { CardProps } from './Card'
 
 function Search() {
   const [searchValue, setSearchValue] = useState<string>('')
   const [page, setPage] = useState(1)
+  const storage: CardProps['data'][] = JSON.parse(localStorage.getItem('favorite') || '[]');
+
   const fetcher = () =>
     get('repositories', { q: `${searchValue} in:name`, page })
   const { data, refetch } = useQuery(['repositories', page], fetcher, {
@@ -31,8 +33,12 @@ function Search() {
   }, [searchValue])
 
   const showCards = () => {
-    return data?.map((data: any) => <Card key={data.full_name} data={data} />)
+    return data?.map((data: any) => {
+    const starred = storage.findIndex(item => (item.full_name === data.full_name)) >= 0;
+      return <Card starred={starred} key={data.full_name} data={data} />
+  }) 
   }
+
   return (
     <SearchWrapper>
       <BackButton2>
