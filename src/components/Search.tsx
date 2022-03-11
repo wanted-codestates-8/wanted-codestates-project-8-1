@@ -3,10 +3,10 @@ import { BsChevronLeft } from 'react-icons/bs'
 import styled from 'styled-components'
 import { BackButton } from './Issues'
 import SearchBar from './SearchBar'
-import { useQuery, useQueryClient, useMutation } from 'react-query'
+import { useQuery } from 'react-query'
 import { get } from 'api/get'
 import Card, { CardProps } from './Card'
-import { Pagination } from '@mui/material'
+import { Pagination, PaginationItem } from '@mui/material'
 
 export interface IItems {
   full_name: string
@@ -20,6 +20,9 @@ function Search() {
   const [page, setPage] = useState(1)
   const [items, setItems] = useState<IItems[]>([])
   const [totalPageCount, setTotalPageCount] = useState(0)
+  const storage: CardProps['data'][] = JSON.parse(
+    localStorage.getItem('favorite') || '[]'
+  )
 
   const fetcher = () =>
     get('repositories', { q: `${searchValue} in:name`, page })
@@ -51,8 +54,13 @@ function Search() {
   }, [searchValue, page, refetch])
 
   const showCards = () => {
-    return items.map((data: any) => <Card key={data.full_name} data={data} />)
+    return items?.map((data: any) => {
+      const starred =
+        storage.findIndex((item) => item.full_name === data.full_name) >= 0
+      return <Card starred={starred} key={data.full_name} data={data} />
+    })
   }
+
   return (
     <SearchWrapper>
       <BackButton2>
@@ -61,13 +69,23 @@ function Search() {
       <SearchBar onSubmit={setSearchValue} />
       {items.length > 0 && showCards()}
       {totalPageCount > 0 && (
-        // TODO 버튼 안의 숫자 크기 조정
         <Pagination
           count={totalPageCount}
           page={page}
           color="primary"
           onChange={onPageChange}
           size="large"
+          sx={{
+            overflow: 'auto',
+          }}
+          renderItem={(item) => (
+            <PaginationItem
+              {...item}
+              sx={{
+                fontSize: '1.8rem',
+              }}
+            />
+          )}
         />
       )}
     </SearchWrapper>

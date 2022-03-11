@@ -1,8 +1,6 @@
 import React, { useState, Dispatch, SetStateAction } from 'react'
 import styled from 'styled-components'
-import Logo from '../assets/logo.svg'
 import AddButton from '../assets/addButton.svg'
-import { get } from 'api/get'
 import Card from './Card'
 
 interface RepositoriesProps {

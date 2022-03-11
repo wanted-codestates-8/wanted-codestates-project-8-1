@@ -1,11 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { HiSearch } from 'react-icons/hi'
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  RefetchQueryFilters,
-} from 'react-query'
 
 interface ISearchBar {
   onSubmit: (value: string) => void
@@ -17,7 +12,6 @@ function SearchBar({ onSubmit }: ISearchBar) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     onSubmit(editingValue)
-    console.log('1')
   }
 
   return (

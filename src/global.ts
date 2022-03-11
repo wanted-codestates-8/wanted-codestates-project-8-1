@@ -72,6 +72,7 @@ const GlobalStyles = createGlobalStyle`
     justify-content: center;
     flex-direction:column;
   }
+
 `
 
 export default GlobalStyles
