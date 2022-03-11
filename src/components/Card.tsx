@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 import { BsRecordCircle } from 'react-icons/bs'
 import { IItems } from './Search'
+import { VscIssues } from 'react-icons/vsc'
 
 export interface CardProps {
   data: IItems
@@ -57,9 +58,9 @@ export default function Card({ data, starred }: CardProps) {
           <h3>{data.full_name}</h3>
           <span style={{ cursor: 'pointer' }}>
             {clickedStar ? (
-              <AiFillStar color={'6C84EE'} onClick={handleStar} />
+              <AiFillStar size={20} color={'6C84EE'} onClick={handleStar} />
             ) : (
-              <AiOutlineStar onClick={handleStar} />
+              <AiOutlineStar size={20} onClick={handleStar} />
             )}
           </span>
         </div>
@@ -67,11 +68,17 @@ export default function Card({ data, starred }: CardProps) {
         <Dl>
           <Bottom>
             <dd>
-              <AiOutlineStar size={20} />
+              <AiOutlineStar
+                size={20}
+                style={{ margin: '4px 0 0 0', color: '#fdcb6e' }}
+              />
             </dd>
             <dt>{data.stargazers_count}</dt>
             <dd>
-              <BsRecordCircle size={20} />
+              <VscIssues
+                size={20}
+                style={{ margin: '4px 0 0 0', color: '#197F37' }}
+              ></VscIssues>
             </dd>
             <dt>{data.open_issues}</dt>
           </Bottom>
@@ -83,8 +90,8 @@ export default function Card({ data, starred }: CardProps) {
 }
 
 const CardWrap = styled.div`
-  width: 300px;
-  margin-bottom: 10px;
+  width: 100%;
+  margin-top: 1rem;
   display: flex;
   align-items: center;
   padding: 12px;

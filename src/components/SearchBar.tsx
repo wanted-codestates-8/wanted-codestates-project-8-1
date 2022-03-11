@@ -31,7 +31,7 @@ function SearchBar({ onSubmit }: ISearchBar) {
 }
 
 const Input = styled.input`
-  width: 30rem;
+  width: 100%;
   padding: 0;
   border: none;
   outline: none;
@@ -44,8 +44,8 @@ const Button = styled.button`
 const Form = styled.form`
   display: flex;
   overflow: hidden;
-  width: fit-content;
-  padding: 10px;
+  width: 100%;
+  padding: 1rem;
   border: 1px solid #e5e5e5;
   background-color: white;
   border-radius: 20px;

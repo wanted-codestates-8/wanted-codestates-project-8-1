@@ -26,7 +26,7 @@ function App() {
           <Repositories setViewSide={setViewSide} />
         </Container>
         <SideContainer className={viewSide ? 'slide-in' : ''}>
-          <Search />
+          <Search setViewSide={setViewSide} />
           {/* <Issues setViewSide={setViewSide} clickedRepo={clickedRepo} /> */}
         </SideContainer>
       </Main>

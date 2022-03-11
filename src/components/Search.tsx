@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react'
 import { BsChevronLeft } from 'react-icons/bs'
 import styled from 'styled-components'
 import { BackButton } from './Issues'
@@ -15,7 +15,11 @@ export interface IItems {
   open_issues: number
 }
 
-function Search() {
+interface RepositoriesProps {
+  setViewSide: Dispatch<SetStateAction<boolean>>
+}
+
+function Search({ setViewSide }: RepositoriesProps) {
   const [searchValue, setSearchValue] = useState<string>('')
   const [page, setPage] = useState(1)
   const [items, setItems] = useState<IItems[]>([])
@@ -63,7 +67,7 @@ function Search() {
 
   return (
     <SearchWrapper>
-      <BackButton2>
+      <BackButton2 onClick={() => setViewSide((prev) => !prev)}>
         <BsChevronLeft strokeWidth="2px"></BsChevronLeft>
       </BackButton2>
       <SearchBar onSubmit={setSearchValue} />
@@ -95,7 +99,7 @@ function Search() {
 const SearchWrapper = styled.section`
   width: 100%;
   height: 100%;
-  padding: 2rem;
+  padding: 3.2rem;
   background-color: white;
 `
 
