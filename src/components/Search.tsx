@@ -7,6 +7,7 @@ import { useQuery } from 'react-query'
 import { get } from 'api/get'
 import Card, { CardProps } from './Card'
 import { Pagination, PaginationItem } from '@mui/material'
+import PaginationModule from './PaginationModule'
 
 export interface IItems {
   full_name: string
@@ -73,23 +74,10 @@ function Search({ setViewSide }: RepositoriesProps) {
       <SearchBar onSubmit={setSearchValue} />
       {items.length > 0 && showCards()}
       {totalPageCount > 0 && (
-        <Pagination
-          count={totalPageCount}
+        <PaginationModule
+          totalPageCount={totalPageCount}
           page={page}
-          color="primary"
           onChange={onPageChange}
-          size="large"
-          sx={{
-            overflow: 'auto',
-          }}
-          renderItem={(item) => (
-            <PaginationItem
-              {...item}
-              sx={{
-                fontSize: '1.8rem',
-              }}
-            />
-          )}
         />
       )}
     </SearchWrapper>
@@ -98,7 +86,7 @@ function Search({ setViewSide }: RepositoriesProps) {
 
 const SearchWrapper = styled.section`
   width: 100%;
-  height: 100%;
+  height: fit-content;
   padding: 3.2rem;
   background-color: white;
 `

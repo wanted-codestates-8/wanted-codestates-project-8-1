@@ -73,6 +73,10 @@ const GlobalStyles = createGlobalStyle`
     flex-direction:column;
   }
 
+  .MuiPagination-ul {
+    justify-content: center;
+  }
+
 `
 
 export default GlobalStyles
