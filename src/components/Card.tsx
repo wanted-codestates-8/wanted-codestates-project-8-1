@@ -28,7 +28,7 @@ export default function Card({ data }: CardProps) {
             <AiFillStar color={'6C84EE'} />
           </span>
         </div>
-        <h5>{data.avatar_url}</h5>
+
         <Dl>
           <Bottom>
             <dd>
@@ -40,7 +40,7 @@ export default function Card({ data }: CardProps) {
             </dd>
             <dt>{data.open_issues}</dt>
           </Bottom>
-          <ImgBox></ImgBox>
+          <ImgBox src={data.avatar_url} />
         </Dl>
       </CardItem>
     </CardWrap>
@@ -54,8 +54,8 @@ const CardWrap = styled.div`
   align-items: center;
   padding: 12px;
   border-radius: 14px;
-  border: 1px solid black;
-  /* box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5); */
+  // border: 1px solid black;
+  box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
 `
 const CardItem = styled.div`
   width: 100%;
@@ -92,7 +92,7 @@ const Bottom = styled.div`
   display: flex;
 `
 
-const ImgBox = styled.div`
+const ImgBox = styled.img`
   width: 30px;
   height: 30px;
   background-color: #6c84ee;

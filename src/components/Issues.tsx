@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import styled, { css } from 'styled-components'
 import { BsChevronLeft } from 'react-icons/bs'
 import { VscIssues } from 'react-icons/vsc'
@@ -37,17 +37,21 @@ const data = {
   ],
 }
 
-function Issues() {
+interface RepositoriesProps {
+  setViewSide: Dispatch<SetStateAction<boolean>>
+}
+
+function Issues({ setViewSide }: RepositoriesProps) {
   return (
     <IssuesWrapper>
-      <BackButton>
-        <BsChevronLeft stroke-width="2px"></BsChevronLeft>
+      <BackButton onClick={() => setViewSide((prev) => !prev)}>
+        <BsChevronLeft strokeWidth="2px"></BsChevronLeft>
       </BackButton>
       <RepoTitle>{data.repositoryName}</RepoTitle>
       <Tag>
         <VscIssues
           size={24}
-          style={{ margin: '4px 4px 0 0', color: '#197F37' }}
+          style={{ margin: '4px 4px 0 0', color: 'white' }}
         ></VscIssues>
         <div>open</div>
       </Tag>
@@ -77,7 +81,8 @@ const IssuesWrapper = styled.section`
   width: 100%;
   height: 100%;
   background-color: white;
-  padding-top: 20px;
+  padding: 3.2rem;
+  box-sizing: border-box;
 `
 export const BackButton = styled.div`
   width: 4rem;
@@ -95,15 +100,18 @@ const RepoTitle = styled.h3`
 `
 const IssueLists = styled.ul`
   margin-top: 20px;
+  width: 100%;
+  box-sizing: border-box;
 `
 const IssueList = styled.li`
-  border: solid 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
   margin: 10px 0;
   border-radius: 10px;
   padding: 10px 20px;
   display: flex;
   justify-content: flex-start;
   align-items: start;
+  width: 100%;
 `
 const IssueListTitle = styled.h4`
   font-size: 18px;
@@ -119,10 +127,11 @@ const Tag = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: solid 1px rgba(0, 0, 0, 0.3);
   border-radius: 20px;
   width: 80px;
   padding: 0 0 2px 0;
   margin-top: 20px;
+  background-color: #6c84ee;
+  color: white;
 `
 export default Issues
